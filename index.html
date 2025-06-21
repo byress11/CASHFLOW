@@ -3,319 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nakit Akışı 101 - Robert Kiyosaki'nin Finansal Oyunu</title>
+    <title>Nakit Akışı 101 - Mobil</title>
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2E7D32">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Nakit Akışı 101">
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTmFraXQgQWvEscWfxLEgMTAxIC0gRmluYW5zYWwgT3l1biIsInNob3J0X25hbWUiOiJOYWtpdCBBa8SxxZ/EsSAxMDEiLCJkZXNjcmlwdGlvbiI6IlJvYmVydCBLaXlvc2FraSduaW4gZmluYW5zYWwgZcSfaXRpbSBveXVudSIsInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiMyRTdEMzIiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI0YxRjhFOSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48dGV4dCB5PScuOWVtJyBmb250LXNpemU9JzkwJz7wn5KwPC90ZXh0Pjwvc3ZnPiIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
             min-height: 100vh;
             color: #333;
             overflow-x: hidden;
+            touch-action: manipulation;
         }
 
-        .container {
-            max-width: 414px;
-            margin: 0 auto;
+        .mobile-container {
+            max-width: 100vw;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             background: #F1F8E9;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            position: relative;
         }
 
         /* Header */
-        .header {
+        .mobile-header {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.05) 10px,
-                rgba(255,255,255,0.05) 20px
-            );
-            animation: slide 20s linear infinite;
+        .header-left {
+            display: flex;
+            flex-direction: column;
         }
 
-        @keyframes slide {
-            0% { transform: translateX(-100px) translateY(-100px); }
-            100% { transform: translateX(100px) translateY(100px); }
-        }
-
-        .header h1 {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .header .subtitle {
-            font-size: 0.9em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Game Status */
-        .game-status {
-            background: white;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #4CAF50;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .status-item {
-            text-align: center;
-            padding: 10px;
-            background: #F8F9FA;
-            border-radius: 8px;
-            border: 1px solid #E9ECEF;
-        }
-
-        .status-label {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .status-value {
+        .game-title {
             font-size: 1.2em;
             font-weight: bold;
-            color: #2E7D32;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        .status-value.negative {
-            color: #D32F2F;
+        .turn-info {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-top: 2px;
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .progress-label {
-            font-size: 0.9em;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
+        .dice-mini {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .progress-bar {
-            height: 25px;
-            background: #E0E0E0;
-            border-radius: 12px;
+        .dice-mini:active {
+            transform: scale(0.95);
+        }
+
+        .menu-button {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-button:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main Game Area */
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             overflow: hidden;
+        }
+
+        /* Board Container */
+        .board-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
             position: relative;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #66BB6A);
-            border-radius: 12px;
-            transition: width 0.8s ease;
+        .game-board {
+            width: min(85vw, 85vh);
+            height: min(85vw, 85vh);
+            max-width: 400px;
+            max-height: 400px;
+            background: radial-gradient(circle at center, #FFF8E1 20%, #F0F4C3 80%);
+            border: 6px solid #8BC34A;
+            border-radius: 50%;
             position: relative;
+            box-shadow: 
+                inset 0 0 30px rgba(139, 195, 74, 0.3),
+                0 0 20px rgba(0,0,0,0.15);
         }
 
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .progress-text {
+        .board-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 0.8em;
-            font-weight: bold;
-            color: #333;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
-        }
-
-        /* Financial Statement */
-        .financial-statement {
-            background: white;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .statement-header {
-            background: linear-gradient(135deg, #1976D2, #2196F3);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .statement-section {
-            margin-bottom: 20px;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .section-title {
-            background: #F5F5F5;
-            padding: 10px;
-            font-weight: bold;
-            color: #333;
-            border-bottom: 1px solid #E0E0E0;
-            font-size: 0.95em;
-        }
-
-        .section-content {
-            padding: 15px;
-        }
-
-        .financial-item {
+            width: 30%;
+            height: 30%;
+            background: linear-gradient(135deg, #FF5722, #FF7043);
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #F0F0F0;
-        }
-
-        .financial-item:last-child {
-            border-bottom: none;
+            justify-content: center;
+            color: white;
             font-weight: bold;
-            background: #F8F9FA;
-            margin: 5px -15px -15px -15px;
-            padding: 12px 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
         }
 
-        .item-label {
+        .center-title {
             font-size: 0.9em;
-            color: #555;
+            margin-bottom: 5px;
         }
 
-        .item-value {
+        .center-subtitle {
+            font-size: 0.6em;
+            opacity: 0.9;
+            line-height: 1.2;
+        }
+
+        /* Board Spaces */
+        .board-space {
+            position: absolute;
+            width: 50px;
+            height: 35px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            border: 2px solid #fff;
+        }
+
+        .board-space:active {
+            transform: scale(0.95);
+        }
+
+        .space-icon {
+            font-size: 1em;
+            margin-bottom: 2px;
+        }
+
+        .space-name {
+            font-size: 0.5em;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .board-space.paycheck {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+        }
+
+        .board-space.opportunity {
+            background: linear-gradient(135deg, #2196F3, #42A5F5);
+            color: white;
+        }
+
+        .board-space.doodad {
+            background: linear-gradient(135deg, #FF9800, #FFB74D);
+            color: white;
+        }
+
+        .board-space.market {
+            background: linear-gradient(135deg, #9C27B0, #BA68C8);
+            color: white;
+        }
+
+        .board-space.charity {
+            background: linear-gradient(135deg, #E91E63, #F06292);
+            color: white;
+        }
+
+        .board-space.downsized {
+            background: linear-gradient(135deg, #F44336, #EF5350);
+            color: white;
+        }
+
+        /* Player Pieces */
+        .player-piece {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            z-index: 50;
+        }
+
+        .player-piece.current {
+            transform: scale(1.4);
+            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Bottom Panel */
+        .bottom-panel {
+            background: white;
+            border-top: 3px solid #4CAF50;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            max-height: 40vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Player Tabs */
+        .player-tabs {
+            display: flex;
+            background: #F5F5F5;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .player-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .player-tab {
+            padding: 12px 20px;
+            background: #E0E0E0;
+            border: none;
+            cursor: pointer;
             font-weight: 600;
-            color: #2E7D32;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            min-width: 100px;
         }
 
-        .item-value.expense {
+        .player-tab.active {
+            background: white;
+            color: #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+        }
+
+        .player-tab.ai {
+            background: #E3F2FD;
+        }
+
+        .player-tab.ai.active {
+            background: white;
+            color: #2196F3;
+            border-bottom: 3px solid #2196F3;
+        }
+
+        /* Player Stats */
+        .player-content {
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .player-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat-item {
+            background: #F8F9FA;
+            padding: 8px 6px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #E9ECEF;
+        }
+
+        .stat-label {
+            font-size: 0.7em;
+            color: #666;
+            margin-bottom: 3px;
+            line-height: 1;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 0.8em;
+            color: #2E7D32;
+            line-height: 1;
+        }
+
+        .stat-value.negative {
             color: #D32F2F;
         }
 
-        /* Action Buttons */
-        .action-buttons {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .escape-status {
+            background: #4CAF50;
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            margin-top: 8px;
         }
 
-        .btn {
+        /* Action Buttons */
+        .action-bar {
+            padding: 15px 20px;
+            background: #F8F9FA;
+            border-top: 1px solid #E0E0E0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-btn {
             background: linear-gradient(135deg, #4CAF50, #66BB6A);
             color: white;
             border: none;
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 1em;
+            padding: 12px 16px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            position: relative;
-            overflow: hidden;
+            font-size: 0.85em;
+            min-width: 80px;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
+        .action-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 4px rgba(76, 175, 80, 0.3);
         }
 
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.secondary {
+        .action-btn.secondary {
             background: linear-gradient(135deg, #FF9800, #FFB74D);
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
         }
 
-        .btn.secondary:hover {
-            box-shadow: 0 6px 16px rgba(255, 152, 0, 0.4);
-        }
-
-        .btn.danger {
+        .action-btn.danger {
             background: linear-gradient(135deg, #F44336, #EF5350);
-            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
-        }
-
-        .btn.danger:hover {
-            box-shadow: 0 6px 16px rgba(244, 67, 54, 0.4);
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
         }
 
         /* Card Modal */
@@ -325,10 +409,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             display: none;
             z-index: 1000;
             backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .card-content {
@@ -337,18 +427,20 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 350px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            animation: cardSlideIn 0.3s ease-out;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 90vw;
+            width: 350px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
         }
 
-        @keyframes cardSlideIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translate(-50%, -60%) scale(0.9);
+                transform: translate(-50%, -30%) scale(0.9);
             }
             to {
                 opacity: 1;
@@ -358,23 +450,23 @@
 
         .card-header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #E0E0E0;
         }
 
         .card-title {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #2E7D32;
             margin-bottom: 5px;
         }
 
         .card-description {
-            font-size: 0.95em;
+            font-size: 0.9em;
             color: #666;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
 
         .card-footer {
@@ -382,262 +474,308 @@
             gap: 10px;
         }
 
-        /* Achievements */
-        .achievement {
-            background: linear-gradient(135deg, #FFD700, #FFC107);
-            color: #333;
-            padding: 10px 15px;
-            border-radius: 25px;
-            margin: 10px 20px;
-            text-align: center;
+        .card-btn {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-            animation: achievementPop 0.5s ease-out;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            font-size: 0.9em;
         }
 
-        @keyframes achievementPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) translateY(20px);
-            }
-            50% {
-                transform: scale(1.05) translateY(-5px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        .card-btn:active {
+            transform: scale(0.98);
         }
 
-        /* Responsive Design */
-        @media (max-width: 480px) {
-            .container {
-                max-width: 100%;
-            }
-            
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .status-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
+        .card-btn.danger {
+            background: linear-gradient(135deg, #F44336, #EF5350);
         }
 
-        /* Loading Animation */
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #E0E0E0;
-            border-top: 4px solid #4CAF50;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Tutorial Mode */
-        .tutorial-overlay {
+        /* Setup Modal */
+        .setup-modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.95);
             z-index: 2000;
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .tutorial-content {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+        .setup-content {
             background: white;
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 25px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .tutorial-arrow {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 15px solid white;
-            top: -15px;
+        .setup-title {
+            font-size: 1.8em;
+            color: #2E7D32;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .setup-section {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .setup-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .setup-input, .setup-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .setup-input:focus, .setup-select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .start-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFC107);
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            z-index: 1001;
+            animation: notificationSlide 0.4s ease;
+            max-width: 90vw;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        @keyframes notificationSlide {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        /* Fast Track Info */
+        .fast-track-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #03A9F4, #29B6F6);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(3, 169, 244, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fast-track-info:active {
+            transform: scale(0.95);
+        }
+
+        /* Loading Animation */
+        .dice-rolling {
+            animation: diceRoll 0.6s ease-in-out;
+        }
+
+        @keyframes diceRoll {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+        }
+
+        /* Responsive adjustments for very small screens */
+        @media (max-width: 360px) {
+            .game-title {
+                font-size: 1em;
+            }
+            
+            .board-space {
+                width: 45px;
+                height: 32px;
+                font-size: 0.55em;
+            }
+            
+            .player-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .action-btn {
+                padding: 10px 12px;
+                font-size: 0.8em;
+                min-width: 70px;
+            }
+        }
+
+        /* Dark theme support */
+        @media (prefers-color-scheme: dark) {
+            .bottom-panel {
+                background: #2d2d2d;
+                color: #fff;
+            }
+            
+            .player-content {
+                background: #2d2d2d;
+            }
+            
+            .stat-item {
+                background: #3d3d3d;
+                border-color: #4d4d4d;
+                color: #fff;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="mobile-container">
         <!-- Header -->
-        <div class="header">
-            <h1>💰 Nakit Akışı 101</h1>
-            <div class="subtitle">Robert Kiyosaki'nin Finansal Eğitim Oyunu</div>
-        </div>
-
-        <!-- Game Status -->
-        <div class="game-status">
-            <div class="status-grid">
-                <div class="status-item">
-                    <div class="status-label">Mevcut Aşama</div>
-                    <div class="status-value" id="current-phase">Fare Yarışı</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-label">Aylık Nakit Akışı</div>
-                    <div class="status-value" id="monthly-cashflow">₺0</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-label">Toplam Gelir</div>
-                    <div class="status-value" id="total-income">₺0</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-label">Toplam Gider</div>
-                    <div class="status-value expense" id="total-expenses">₺0</div>
+        <div class="mobile-header">
+            <div class="header-left">
+                <div class="game-title">💰 Nakit Akışı 101</div>
+                <div class="turn-info">
+                    <span id="current-player-name">Oyuncu 1</span> | Tur: <span id="turn-number">1</span>
                 </div>
             </div>
-            
-            <div class="progress-container">
-                <div class="progress-label">🎯 Fare Yarışından Kaçış İlerlemesi</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="escape-progress" style="width: 0%"></div>
-                    <div class="progress-text" id="progress-text">Pasif gelir toplam gideri aşmalı</div>
-                </div>
+            <div class="header-right">
+                <div class="dice-mini" id="dice-mini" onclick="rollDice()">6</div>
+                <div class="menu-button" onclick="toggleMenu()">☰</div>
             </div>
         </div>
 
-        <!-- Financial Statement -->
-        <div class="financial-statement">
-            <div class="statement-header">📊 Gelir Tablosu & Bilanço</div>
-            
-            <!-- Income Statement -->
-            <div class="statement-section">
-                <div class="section-title">💵 Gelir Tablosu</div>
-                <div class="section-content">
-                    <div class="financial-item">
-                        <span class="item-label">Maaş</span>
-                        <span class="item-value" id="salary">₺15.000</span>
+        <!-- Main Game Area -->
+        <div class="game-area">
+            <!-- Board Container -->
+            <div class="board-container">
+                <div class="game-board" id="game-board">
+                    <div class="board-center">
+                        <div class="center-title">🐭 FARE YARIŞI</div>
+                        <div class="center-subtitle">Pasif Gelir > Toplam Gider</div>
                     </div>
-                    <div class="financial-item">
-                        <span class="item-label">Faiz/Temettü</span>
-                        <span class="item-value" id="interest">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Emlak/İş Geliri</span>
-                        <span class="item-value" id="real-estate-income">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Toplam Gelir</span>
-                        <span class="item-value" id="total-income-display">₺15.000</span>
-                    </div>
+                    <!-- Board spaces will be generated here -->
+                </div>
+                
+                <!-- Fast Track Info -->
+                <div class="fast-track-info" onclick="showFastTrackInfo()">
+                    🚀 HIZLI YOL
                 </div>
             </div>
 
-            <!-- Expenses -->
-            <div class="statement-section">
-                <div class="section-title">💸 Giderler</div>
-                <div class="section-content">
-                    <div class="financial-item">
-                        <span class="item-label">Vergiler</span>
-                        <span class="item-value expense" id="taxes">₺2.300</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Ev Kredisi</span>
-                        <span class="item-value expense" id="home-mortgage">₺2.000</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Eğitim Kredisi</span>
-                        <span class="item-value expense" id="school-loans">₺300</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Araba Kredisi</span>
-                        <span class="item-value expense" id="car-loans">₺600</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Kredi Kartları</span>
-                        <span class="item-value expense" id="credit-cards">₺450</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Diğer Giderler</span>
-                        <span class="item-value expense" id="other-expenses">₺1.500</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Çocuk Giderleri</span>
-                        <span class="item-value expense" id="child-expenses">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Toplam Gider</span>
-                        <span class="item-value expense" id="total-expenses-display">₺7.150</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Assets & Liabilities -->
-            <div class="statement-section">
-                <div class="section-title">🏦 Varlıklar & Borçlar</div>
-                <div class="section-content">
-                    <div class="financial-item">
-                        <span class="item-label">Birikimler</span>
-                        <span class="item-value" id="savings">₺2.000</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Hisse/Yatırım Fonu</span>
-                        <span class="item-value" id="stocks">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Emlak</span>
-                        <span class="item-value" id="real-estate">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">İş</span>
-                        <span class="item-value" id="business">₺0</span>
-                    </div>
-                    <div class="financial-item">
-                        <span class="item-label">Toplam Borç</span>
-                        <span class="item-value expense" id="total-liabilities">₺1.010.000</span>
-                    </div>
-                </div>
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <button class="action-btn" onclick="drawOpportunityCard()">🎴 Fırsat</button>
+                <button class="action-btn secondary" onclick="drawDoodadCard()">🛍️ Harcama</button>
+                <button class="action-btn" onclick="payCheck()">💰 Maaş</button>
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button class="btn" onclick="drawOpportunityCard()">
-                🎴 Fırsat Kartı Çek
-            </button>
-            <button class="btn secondary" onclick="drawDoodadCard()">
-                🛍️ Harcama Kartı Çek
-            </button>
-            <button class="btn" onclick="payCheck()">
-                💰 Maaş Al
-            </button>
-            <button class="btn secondary" onclick="showTutorial()">
-                📚 Öğretici
-            </button>
-            <button class="btn danger" onclick="resetGame()">
-                🔄 Yeni Oyun
-            </button>
-            <button class="btn" onclick="showProfile()">
-                👤 Profilim
-            </button>
+        <!-- Bottom Panel -->
+        <div class="bottom-panel">
+            <!-- Player Tabs -->
+            <div class="player-tabs" id="player-tabs">
+                <!-- Player tabs will be generated here -->
+            </div>
+
+            <!-- Player Content -->
+            <div class="player-content" id="player-content">
+                <!-- Player stats will be shown here -->
+            </div>
+        </div>
+
+        <!-- Setup Modal -->
+        <div class="setup-modal" id="setup-modal">
+            <div class="setup-content">
+                <div class="setup-title">🎮 Oyun Kurulumu</div>
+                
+                <div class="setup-section">
+                    <label class="setup-label">Oyuncu Sayısı:</label>
+                    <select class="setup-select" id="player-count">
+                        <option value="2">2 Oyuncu</option>
+                        <option value="3">3 Oyuncu</option>
+                        <option value="4" selected>4 Oyuncu</option>
+                    </select>
+                </div>
+
+                <div class="setup-section">
+                    <label class="setup-label">AI Oyuncu Sayısı:</label>
+                    <select class="setup-select" id="ai-count">
+                        <option value="0">Sadece İnsan Oyuncular</option>
+                        <option value="1">1 AI Oyuncu</option>
+                        <option value="2">2 AI Oyuncu</option>
+                        <option value="3" selected>3 AI Oyuncu</option>
+                    </select>
+                </div>
+
+                <div class="setup-section">
+                    <label class="setup-label">Senin Adın:</label>
+                    <input type="text" class="setup-input" id="player-name" value="Oyuncu 1" maxlength="15">
+                </div>
+
+                <div class="setup-section">
+                    <label class="setup-label">Zorluk Seviyesi:</label>
+                    <select class="setup-select" id="difficulty">
+                        <option value="easy">Kolay</option>
+                        <option value="medium" selected>Orta</option>
+                        <option value="hard">Zor</option>
+                    </select>
+                </div>
+
+                <button class="start-btn" onclick="startGame()">
+                    🚀 Oyunu Başlat
+                </button>
+            </div>
         </div>
 
         <!-- Card Modal -->
@@ -647,23 +785,12 @@
                     <div class="card-title" id="card-title">Fırsat Kartı</div>
                 </div>
                 <div class="card-description" id="card-description">
-                    HızlıBüyü Şirketi'nden hisse başına ₺5'den 100 hisse satın alın. 
-                    Temettü: aylık ₺50. Gereken peşinat: ₺500.
+                    Kart açıklaması buraya gelecek...
                 </div>
                 <div class="card-footer">
-                    <button class="btn" onclick="acceptCard()">✅ Kabul Et</button>
-                    <button class="btn danger" onclick="rejectCard()">❌ Reddet</button>
+                    <button class="card-btn" onclick="acceptCard()">✅ Kabul Et</button>
+                    <button class="card-btn danger" onclick="rejectCard()">❌ Reddet</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Tutorial Overlay -->
-        <div class="tutorial-overlay" id="tutorial-overlay">
-            <div class="tutorial-content">
-                <div class="tutorial-arrow"></div>
-                <h3 id="tutorial-title">Nakit Akışı 101'e Hoş Geldiniz!</h3>
-                <p id="tutorial-text">Pasif gelir sağlayan varlıklar inşa etmeyi öğrenin ve Fare Yarışı'ndan kaçın!</p>
-                <button class="btn" onclick="nextTutorial()">İleri →</button>
             </div>
         </div>
     </div>
@@ -671,34 +798,122 @@
     <script>
         // Game State
         let gameState = {
-            phase: 'rat-race', // 'rat-race' or 'fast-track'
-            salary: 15000,
-            passiveIncome: 0,
-            totalExpenses: 7150,
-            savings: 2000,
-            stocks: 0,
-            realEstate: 0,
-            business: 0,
-            liabilities: 1010000,
-            
-            // Detailed breakdown
-            interest: 0,
-            realEstateIncome: 0,
-            taxes: 2300,
-            homeMortgage: 2000,
-            schoolLoans: 300,
-            carLoans: 600,
-            creditCards: 450,
-            otherExpenses: 1500,
-            childExpenses: 0,
-            
-            // Game progress
-            turn: 0,
-            achievements: [],
-            currentCard: null
+            players: [],
+            currentPlayerIndex: 0,
+            turn: 1,
+            gameStarted: false,
+            activeCard: null,
+            canRollDice: true
         };
 
-        // Card Database - Türkçe çevirili
+        // Player Class
+        class Player {
+            constructor(name, isAI = false, color = '#F44336') {
+                this.name = name;
+                this.isAI = isAI;
+                this.color = color;
+                this.position = 0;
+                this.phase = 'rat-race';
+                
+                // Financial Data
+                this.salary = 15000;
+                this.savings = 2000;
+                this.stocks = 0;
+                this.realEstate = 0;
+                this.business = 0;
+                this.liabilities = 1010000;
+                
+                // Income & Expenses
+                this.interest = 0;
+                this.realEstateIncome = 0;
+                this.taxes = 2300;
+                this.homeMortgage = 2000;
+                this.schoolLoans = 300;
+                this.carLoans = 600;
+                this.creditCards = 450;
+                this.otherExpenses = 1500;
+                this.childExpenses = 0;
+            }
+
+            getTotalIncome() {
+                return this.salary + this.interest + this.realEstateIncome;
+            }
+
+            getTotalExpenses() {
+                return this.taxes + this.homeMortgage + this.schoolLoans + 
+                       this.carLoans + this.creditCards + this.otherExpenses + this.childExpenses;
+            }
+
+            getPassiveIncome() {
+                return this.interest + this.realEstateIncome;
+            }
+
+            getCashFlow() {
+                return this.getTotalIncome() - this.getTotalExpenses();
+            }
+
+            canEscapeRatRace() {
+                return this.getPassiveIncome() >= this.getTotalExpenses();
+            }
+
+            getNetWorth() {
+                const totalAssets = this.savings + this.stocks + this.realEstate + this.business;
+                return totalAssets - this.liabilities;
+            }
+        }
+
+        // AI Strategy
+        class AIStrategy {
+            static makeDecision(player, card) {
+                if (!card || !card.action) return false;
+
+                const cashFlow = player.getCashFlow();
+                const canAfford = player.savings >= (card.cost || 0);
+
+                if (!canAfford) return false;
+
+                if (card.type === 'real-estate' || card.type === 'stocks' || card.type === 'business') {
+                    const roi = (card.monthlyReturn || 0) / (card.cost || 1);
+                    return roi > 0.02;
+                }
+
+                if (card.type === 'liability' || card.type === 'expense') {
+                    return false;
+                }
+
+                return Math.random() > 0.3;
+            }
+        }
+
+        // Board Spaces Data
+        const boardSpaces = [
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'doodad', name: 'HARCAMA', icon: '🛍️' },
+            { type: 'market', name: 'PİYASA', icon: '📈' },
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'charity', name: 'HAYIR', icon: '❤️' },
+            { type: 'doodad', name: 'HARCAMA', icon: '🛍️' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'downsized', name: 'İŞSİZ', icon: '😢' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'market', name: 'PİYASA', icon: '📈' },
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'doodad', name: 'HARCAMA', icon: '🛍️' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'charity', name: 'HAYIR', icon: '❤️' },
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'doodad', name: 'HARCAMA', icon: '🛍️' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'market', name: 'PİYASA', icon: '📈' },
+            { type: 'paycheck', name: 'MAAŞ', icon: '💰' },
+            { type: 'downsized', name: 'İŞSİZ', icon: '😢' },
+            { type: 'opportunity', name: 'FIRSAT', icon: '🎴' },
+            { type: 'doodad', name: 'HARCAMA', icon: '🛍️' }
+        ];
+
+        // Cards Database
         const opportunityCards = [
             {
                 title: "4'lü Apartman Dairesi",
@@ -707,99 +922,48 @@
                 cost: 25000,
                 monthlyReturn: 1000,
                 totalValue: 225000,
-                action: () => {
-                    if (gameState.savings >= 25000) {
-                        gameState.savings -= 25000;
-                        gameState.realEstate += 225000;
-                        gameState.realEstateIncome += 1000;
-                        return { success: true, message: "Tebrikler! 4'lü apartman satın aldınız!" };
+                action: (player) => {
+                    if (player.savings >= 25000) {
+                        player.savings -= 25000;
+                        player.realEstate += 225000;
+                        player.realEstateIncome += 1000;
+                        return { success: true, message: `${player.name} 4'lü apartman satın aldı!` };
                     }
-                    return { success: false, message: "Yetersiz birikim. ₺25.000 peşinat gerekli." };
+                    return { success: false, message: `${player.name} yetersiz birikime sahip!` };
                 }
             },
             {
-                title: "Hisse Yatırımı - TeknoŞirket",
+                title: "TeknoŞirket Hissesi",
                 description: "TeknoŞirket'ten hisse başına ₺50'den 100 hisse satın alın. Temettü: aylık ₺125. Toplam maliyet: ₺5.000.",
                 type: "stocks",
                 cost: 5000,
                 monthlyReturn: 125,
                 totalValue: 5000,
-                action: () => {
-                    if (gameState.savings >= 5000) {
-                        gameState.savings -= 5000;
-                        gameState.stocks += 5000;
-                        gameState.interest += 125;
-                        return { success: true, message: "TeknoŞirket'ten 100 hisse satın aldınız!" };
+                action: (player) => {
+                    if (player.savings >= 5000) {
+                        player.savings -= 5000;
+                        player.stocks += 5000;
+                        player.interest += 125;
+                        return { success: true, message: `${player.name} TeknoŞirket hissesi satın aldı!` };
                     }
-                    return { success: false, message: "Yetersiz birikim. ₺5.000 gerekli." };
+                    return { success: false, message: `${player.name} yetersiz birikime sahip!` };
                 }
             },
             {
-                title: "Küçük İşletme - Çamaşırhane",
+                title: "Çamaşırhane İşletmesi",
                 description: "Çamaşırhane işletmesi satın alın. Fiyat: ₺150.000. Aylık kar: ₺1.500. Peşinat: ₺50.000.",
                 type: "business",
                 cost: 50000,
                 monthlyReturn: 1500,
                 totalValue: 150000,
-                action: () => {
-                    if (gameState.savings >= 50000) {
-                        gameState.savings -= 50000;
-                        gameState.business += 150000;
-                        gameState.realEstateIncome += 1500;
-                        return { success: true, message: "Çamaşırhane işletmesi satın aldınız!" };
+                action: (player) => {
+                    if (player.savings >= 50000) {
+                        player.savings -= 50000;
+                        player.business += 150000;
+                        player.realEstateIncome += 1500;
+                        return { success: true, message: `${player.name} çamaşırhane işletmesi satın aldı!` };
                     }
-                    return { success: false, message: "Yetersiz birikim. ₺50.000 peşinat gerekli." };
-                }
-            },
-            {
-                title: "GYO Yatırımı",
-                description: "Gayrimenkul Yatırım Ortaklığı'na yatırım yapın. ₺2.500 yatırım, aylık ₺75 temettü.",
-                type: "stocks",
-                cost: 2500,
-                monthlyReturn: 75,
-                totalValue: 2500,
-                action: () => {
-                    if (gameState.savings >= 2500) {
-                        gameState.savings -= 2500;
-                        gameState.stocks += 2500;
-                        gameState.interest += 75;
-                        return { success: true, message: "GYO'ya yatırım yaptınız!" };
-                    }
-                    return { success: false, message: "Yetersiz birikim. ₺2.500 gerekli." };
-                }
-            },
-            {
-                title: "Bitcoin Yatırımı",
-                description: "0.1 Bitcoin satın alın. Maliyet: ₺15.000. Potansiyel aylık getiri: ₺500 (değişken).",
-                type: "crypto",
-                cost: 15000,
-                monthlyReturn: 500,
-                totalValue: 15000,
-                action: () => {
-                    if (gameState.savings >= 15000) {
-                        gameState.savings -= 15000;
-                        gameState.stocks += 15000;
-                        gameState.interest += 500;
-                        return { success: true, message: "Bitcoin yatırımı yaptınız!" };
-                    }
-                    return { success: false, message: "Yetersiz birikim. ₺15.000 gerekli." };
-                }
-            },
-            {
-                title: "Kafe İşletmesi",
-                description: "Küçük bir kafe açın. Toplam yatırım: ₺80.000. Aylık net kar: ₺2.000. Peşinat: ₺30.000.",
-                type: "business",
-                cost: 30000,
-                monthlyReturn: 2000,
-                totalValue: 80000,
-                action: () => {
-                    if (gameState.savings >= 30000) {
-                        gameState.savings -= 30000;
-                        gameState.business += 80000;
-                        gameState.realEstateIncome += 2000;
-                        return { success: true, message: "Kafe işletmesi açtınız!" };
-                    }
-                    return { success: false, message: "Yetersiz birikim. ₺30.000 peşinat gerekli." };
+                    return { success: false, message: `${player.name} yetersiz birikime sahip!` };
                 }
             }
         ];
@@ -811,11 +975,10 @@
                 type: "liability",
                 monthlyExpense: 2000,
                 totalLiability: 125000,
-                action: () => {
-                    gameState.carLoans += 2000;
-                    gameState.liabilities += 125000;
-                    showAchievement("💸 Yeni Araba Borcu Eklendi!");
-                    return { success: true, message: "Yeni araba aldınız ama giderleriniz arttı!" };
+                action: (player) => {
+                    player.carLoans += 2000;
+                    player.liabilities += 125000;
+                    return { success: true, message: `${player.name} yeni araba aldı ama borcu arttı!` };
                 }
             },
             {
@@ -823,313 +986,395 @@
                 description: "Alışveriş çılgınlığı! Kredi kartı ödemeniz aylık ₺250 arttı.",
                 type: "expense",
                 monthlyExpense: 250,
-                action: () => {
-                    gameState.creditCards += 250;
-                    gameState.liabilities += 12500;
-                    return { success: true, message: "Kredi kartı borcunuz arttı!" };
-                }
-            },
-            {
-                title: "Ev Renovasyonu",
-                description: "Mutfağınızı yenilediniz. Kredi ödemesi: 5 yıl boyunca aylık ₺1.000.",
-                type: "liability",
-                monthlyExpense: 1000,
-                totalLiability: 60000,
-                action: () => {
-                    gameState.otherExpenses += 1000;
-                    gameState.liabilities += 60000;
-                    return { success: true, message: "Güzel mutfak, ama daha fazla borç!" };
-                }
-            },
-            {
-                title: "Avrupa Tatili",
-                description: "Avrupa'ya harika bir tatil! Kredi kartına yüklendi: ₺15.000. Aylık ödeme: ₺375.",
-                type: "expense",
-                monthlyExpense: 375,
-                action: () => {
-                    gameState.creditCards += 375;
-                    gameState.liabilities += 15000;
-                    return { success: true, message: "Harika anılar, daha fazla borç!" };
-                }
-            },
-            {
-                title: "Lüks Saat Alımı",
-                description: "Pahalı bir kol saati satın aldınız. Kredi kartı borcu: ₺8.000. Aylık ödeme: ₺200.",
-                type: "expense",
-                monthlyExpense: 200,
-                action: () => {
-                    gameState.creditCards += 200;
-                    gameState.liabilities += 8000;
-                    return { success: true, message: "Şık saat, ama daha fazla borç!" };
-                }
-            },
-            {
-                title: "Çocuk Sahibi Olmak",
-                description: "Tebrikler! Bir bebeğiniz oldu. Aylık çocuk giderleri: ₺1.200.",
-                type: "expense",
-                monthlyExpense: 1200,
-                action: () => {
-                    gameState.childExpenses += 1200;
-                    return { success: true, message: "Büyük mutluluk, ama daha fazla gider!" };
+                action: (player) => {
+                    player.creditCards += 250;
+                    player.liabilities += 12500;
+                    return { success: true, message: `${player.name} kredi kartı borcunu artırdı!` };
                 }
             }
         ];
 
         // Initialize Game
         function initGame() {
-            updateDisplay();
-            showAchievement("🎮 Nakit Akışı 101'e Hoş Geldiniz!");
+            generateBoardSpaces();
+            showSetupModal();
         }
 
-        // Update Display
-        function updateDisplay() {
-            // Calculate totals
-            const totalIncome = gameState.salary + gameState.passiveIncome;
-            const totalPassiveIncome = gameState.interest + gameState.realEstateIncome;
-            const totalExpenses = gameState.taxes + gameState.homeMortgage + gameState.schoolLoans + 
-                                 gameState.carLoans + gameState.creditCards + gameState.otherExpenses + gameState.childExpenses;
-            const monthlyCashFlow = totalIncome - totalExpenses;
-
-            // Update status
-            document.getElementById('current-phase').textContent = gameState.phase === 'rat-race' ? 'Fare Yarışı' : 'Hızlı Yol';
-            document.getElementById('monthly-cashflow').textContent = formatCurrency(monthlyCashFlow);
-            document.getElementById('monthly-cashflow').className = 'status-value ' + (monthlyCashFlow >= 0 ? '' : 'negative');
-            document.getElementById('total-income').textContent = formatCurrency(totalIncome);
-            document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
-
-            // Update financial statement
-            document.getElementById('salary').textContent = formatCurrency(gameState.salary);
-            document.getElementById('interest').textContent = formatCurrency(gameState.interest);
-            document.getElementById('real-estate-income').textContent = formatCurrency(gameState.realEstateIncome);
-            document.getElementById('total-income-display').textContent = formatCurrency(totalIncome);
-
-            document.getElementById('taxes').textContent = formatCurrency(gameState.taxes);
-            document.getElementById('home-mortgage').textContent = formatCurrency(gameState.homeMortgage);
-            document.getElementById('school-loans').textContent = formatCurrency(gameState.schoolLoans);
-            document.getElementById('car-loans').textContent = formatCurrency(gameState.carLoans);
-            document.getElementById('credit-cards').textContent = formatCurrency(gameState.creditCards);
-            document.getElementById('other-expenses').textContent = formatCurrency(gameState.otherExpenses);
-            document.getElementById('child-expenses').textContent = formatCurrency(gameState.childExpenses);
-            document.getElementById('total-expenses-display').textContent = formatCurrency(totalExpenses);
-
-            document.getElementById('savings').textContent = formatCurrency(gameState.savings);
-            document.getElementById('stocks').textContent = formatCurrency(gameState.stocks);
-            document.getElementById('real-estate').textContent = formatCurrency(gameState.realEstate);
-            document.getElementById('business').textContent = formatCurrency(gameState.business);
-            document.getElementById('total-liabilities').textContent = formatCurrency(gameState.liabilities);
-
-            // Update progress bar
-            const progressPercentage = Math.min((totalPassiveIncome / totalExpenses) * 100, 100);
-            document.getElementById('escape-progress').style.width = progressPercentage + '%';
+        function generateBoardSpaces() {
+            const board = document.getElementById('game-board');
             
-            if (totalPassiveIncome >= totalExpenses && gameState.phase === 'rat-race') {
-                document.getElementById('progress-text').textContent = '🎉 Fare Yarışı\'ndan çıkmaya hazır!';
-                escapeRatRace();
-            } else {
-                const needed = totalExpenses - totalPassiveIncome;
-                document.getElementById('progress-text').textContent = 
-                    `₺${needed.toLocaleString()} daha pasif gelir gerekli`;
+            setTimeout(() => {
+                if (!board) return;
+                
+                const boardRect = board.getBoundingClientRect();
+                const radius = Math.min(boardRect.width, boardRect.height) * 0.32;
+                const centerX = boardRect.width / 2;
+                const centerY = boardRect.height / 2;
+
+                boardSpaces.forEach((space, index) => {
+                    const angle = (index / boardSpaces.length) * 2 * Math.PI - Math.PI / 2;
+                    const x = centerX + radius * Math.cos(angle) - 25;
+                    const y = centerY + radius * Math.sin(angle) - 17.5;
+
+                    const spaceElement = document.createElement('div');
+                    spaceElement.className = `board-space ${space.type}`;
+                    spaceElement.style.position = 'absolute';
+                    spaceElement.style.left = x + 'px';
+                    spaceElement.style.top = y + 'px';
+                    spaceElement.innerHTML = `
+                        <div class="space-icon">${space.icon}</div>
+                        <div class="space-name">${space.name}</div>
+                    `;
+                    spaceElement.onclick = () => handleSpaceClick(index);
+                    board.appendChild(spaceElement);
+                });
+            }, 100);
+        }
+
+        function showSetupModal() {
+            document.getElementById('setup-modal').style.display = 'flex';
+        }
+
+        function startGame() {
+            const playerCount = parseInt(document.getElementById('player-count').value);
+            const aiCount = parseInt(document.getElementById('ai-count').value);
+            const playerName = document.getElementById('player-name').value || 'Oyuncu 1';
+
+            gameState.players = [];
+            const colors = ['#F44336', '#2196F3', '#FF9800', '#9C27B0'];
+            
+            gameState.players.push(new Player(playerName, false, colors[0]));
+            
+            for (let i = 1; i < playerCount; i++) {
+                const isAI = i <= aiCount;
+                const name = isAI ? `AI Oyuncu ${i}` : `Oyuncu ${i + 1}`;
+                gameState.players.push(new Player(name, isAI, colors[i]));
+            }
+
+            document.getElementById('setup-modal').style.display = 'none';
+            
+            initPlayerTabs();
+            updatePlayerDisplay();
+            addPlayerPieces();
+            
+            gameState.gameStarted = true;
+            showNotification('🎮 Oyun başladı! İyi şanslar!');
+        }
+
+        function initPlayerTabs() {
+            const tabsContainer = document.getElementById('player-tabs');
+            tabsContainer.innerHTML = '';
+
+            gameState.players.forEach((player, index) => {
+                const tab = document.createElement('button');
+                tab.className = `player-tab ${player.isAI ? 'ai' : ''} ${index === 0 ? 'active' : ''}`;
+                tab.textContent = player.name;
+                tab.onclick = () => switchPlayerTab(index);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function switchPlayerTab(index) {
+            document.querySelectorAll('.player-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            displayPlayerStats(gameState.players[index]);
+        }
+
+        function displayPlayerStats(player) {
+            const content = document.getElementById('player-content');
+            const totalIncome = player.getTotalIncome();
+            const totalExpenses = player.getTotalExpenses();
+            const cashFlow = player.getCashFlow();
+            const passiveIncome = player.getPassiveIncome();
+            const netWorth = player.getNetWorth();
+
+            content.innerHTML = `
+                <div class="player-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Aşama</div>
+                        <div class="stat-value">${player.phase === 'rat-race' ? 'Fare Yarışı' : 'Hızlı Yol'}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Nakit Akışı</div>
+                        <div class="stat-value ${cashFlow < 0 ? 'negative' : ''}">${formatCurrency(cashFlow)}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Pasif Gelir</div>
+                        <div class="stat-value">${formatCurrency(passiveIncome)}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Birikimler</div>
+                        <div class="stat-value">${formatCurrency(player.savings)}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Net Değer</div>
+                        <div class="stat-value ${netWorth < 0 ? 'negative' : ''}">${formatCurrency(netWorth)}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Pozisyon</div>
+                        <div class="stat-value">${player.position + 1}</div>
+                    </div>
+                </div>
+                ${player.canEscapeRatRace() && player.phase === 'rat-race' ? 
+                    '<div class="escape-status">🎉 Fare Yarışından Çıkmaya Hazır!</div>' : 
+                    ''}
+            `;
+        }
+
+        function addPlayerPieces() {
+            setTimeout(() => {
+                gameState.players.forEach((player, index) => {
+                    const piece = document.createElement('div');
+                    piece.className = `player-piece`;
+                    piece.style.backgroundColor = player.color;
+                    piece.id = `player-piece-${index}`;
+                    document.getElementById('game-board').appendChild(piece);
+                    updatePlayerPosition(index, player.position);
+                });
+            }, 200);
+        }
+
+        function updatePlayerPosition(playerIndex, position) {
+            const piece = document.getElementById(`player-piece-${playerIndex}`);
+            const spaces = document.querySelectorAll('.board-space');
+            
+            if (!piece || !spaces[position]) return;
+            
+            const space = spaces[position];
+            const board = document.getElementById('game-board');
+            
+            if (!board) return;
+            
+            const boardRect = board.getBoundingClientRect();
+            const spaceRect = space.getBoundingClientRect();
+            
+            const offsetX = (playerIndex % 2) * 12 - 6;
+            const offsetY = Math.floor(playerIndex / 2) * 12 - 6;
+            
+            const relativeX = spaceRect.left - boardRect.left + space.offsetWidth / 2 - 8 + offsetX;
+            const relativeY = spaceRect.top - boardRect.top + space.offsetHeight / 2 - 8 + offsetY;
+            
+            piece.style.position = 'absolute';
+            piece.style.left = relativeX + 'px';
+            piece.style.top = relativeY + 'px';
+        }
+
+        function updatePlayerDisplay() {
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            document.getElementById('current-player-name').textContent = currentPlayer.name;
+            document.getElementById('turn-number').textContent = gameState.turn;
+            
+            document.querySelectorAll('.player-piece').forEach((piece, index) => {
+                piece.classList.toggle('current', index === gameState.currentPlayerIndex);
+            });
+            
+            const activeTabs = document.querySelectorAll('.player-tab.active');
+            if (activeTabs.length > 0) {
+                const activeIndex = Array.from(document.querySelectorAll('.player-tab')).indexOf(activeTabs[0]);
+                displayPlayerStats(gameState.players[activeIndex]);
             }
         }
 
-        // Format Currency
+        function rollDice() {
+            if (!gameState.gameStarted || !gameState.canRollDice) return;
+            
+            gameState.canRollDice = false;
+            const diceElement = document.getElementById('dice-mini');
+            diceElement.classList.add('dice-rolling');
+            
+            setTimeout(() => {
+                const roll = Math.floor(Math.random() * 6) + 1;
+                diceElement.textContent = roll;
+                diceElement.classList.remove('dice-rolling');
+                
+                moveCurrentPlayer(roll);
+                gameState.canRollDice = true;
+            }, 600);
+        }
+
+        function moveCurrentPlayer(spaces) {
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            const oldPosition = currentPlayer.position;
+            currentPlayer.position = (currentPlayer.position + spaces) % boardSpaces.length;
+            
+            setTimeout(() => {
+                updatePlayerPosition(gameState.currentPlayerIndex, currentPlayer.position);
+                
+                if (currentPlayer.position < oldPosition || spaces + oldPosition >= boardSpaces.length) {
+                    handlePaycheck(currentPlayer);
+                } else {
+                    setTimeout(() => {
+                        handleSpaceAction(currentPlayer, currentPlayer.position);
+                    }, 400);
+                }
+            }, 100);
+        }
+
+        function handleSpaceAction(player, position) {
+            const space = boardSpaces[position];
+            
+            switch (space.type) {
+                case 'paycheck':
+                    handlePaycheck(player);
+                    break;
+                case 'opportunity':
+                    drawOpportunityCard(player);
+                    break;
+                case 'doodad':
+                    drawDoodadCard(player);
+                    break;
+                case 'market':
+                    handleMarket(player);
+                    break;
+                case 'charity':
+                    handleCharity(player);
+                    break;
+                case 'downsized':
+                    handleDownsized(player);
+                    break;
+            }
+        }
+
+        function handleSpaceClick(index) {
+            showNotification(`${boardSpaces[index].name} alanı: ${boardSpaces[index].icon}`);
+        }
+
+        function handlePaycheck(player) {
+            const cashFlow = player.getCashFlow();
+            player.savings += cashFlow;
+            showNotification(`💰 ${player.name} maaş aldı: ${formatCurrency(cashFlow)}`);
+            
+            if (player.canEscapeRatRace() && player.phase === 'rat-race') {
+                player.phase = 'fast-track';
+                showNotification(`🎉 ${player.name} Fare Yarışından kaçtı!`);
+            }
+            
+            updatePlayerDisplay();
+            nextTurn();
+        }
+
+        function drawOpportunityCard(player = null) {
+            if (!player) player = gameState.players[gameState.currentPlayerIndex];
+            const card = opportunityCards[Math.floor(Math.random() * opportunityCards.length)];
+            showCard(card, player);
+        }
+
+        function drawDoodadCard(player = null) {
+            if (!player) player = gameState.players[gameState.currentPlayerIndex];
+            const card = doodadCards[Math.floor(Math.random() * doodadCards.length)];
+            showCard(card, player);
+        }
+
+        function handleMarket(player) {
+            showNotification(`📈 ${player.name} piyasa değişikliği yaşadı!`);
+            nextTurn();
+        }
+
+        function handleCharity(player) {
+            const donation = Math.min(player.savings * 0.1, player.getTotalExpenses());
+            player.savings -= donation;
+            showNotification(`❤️ ${player.name} hayır işine ${formatCurrency(donation)} bağışladı!`);
+            nextTurn();
+        }
+
+        function handleDownsized(player) {
+            const penalty = player.getTotalExpenses() * 2;
+            player.savings -= penalty;
+            showNotification(`😢 ${player.name} işsiz kaldı! ${formatCurrency(penalty)} kayıp!`);
+            nextTurn();
+        }
+
+        function payCheck() {
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            handlePaycheck(currentPlayer);
+        }
+
+        function showCard(card, player) {
+            gameState.activeCard = { card, player };
+            document.getElementById('card-title').textContent = card.title;
+            document.getElementById('card-description').textContent = card.description;
+            document.getElementById('card-modal').style.display = 'block';
+            
+            if (player.isAI) {
+                setTimeout(() => {
+                    const decision = AIStrategy.makeDecision(player, card);
+                    if (decision) {
+                        acceptCard();
+                    } else {
+                        rejectCard();
+                    }
+                }, 2000);
+            }
+        }
+
+        function acceptCard() {
+            if (gameState.activeCard) {
+                const { card, player } = gameState.activeCard;
+                const result = card.action(player);
+                showNotification(result.message);
+                updatePlayerDisplay();
+            }
+            closeCard();
+        }
+
+        function rejectCard() {
+            if (gameState.activeCard) {
+                const { player } = gameState.activeCard;
+                showNotification(`${player.name} kartı reddetti.`);
+            }
+            closeCard();
+        }
+
+        function closeCard() {
+            document.getElementById('card-modal').style.display = 'none';
+            gameState.activeCard = null;
+            nextTurn();
+        }
+
+        function nextTurn() {
+            gameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+            
+            if (gameState.currentPlayerIndex === 0) {
+                gameState.turn++;
+            }
+            
+            updatePlayerDisplay();
+            
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            if (currentPlayer.isAI && gameState.gameStarted) {
+                setTimeout(() => {
+                    rollDice();
+                }, 1500);
+            }
+        }
+
         function formatCurrency(amount) {
             return '₺' + amount.toLocaleString('tr-TR');
         }
 
-        // Draw Opportunity Card
-        function drawOpportunityCard() {
-            const card = opportunityCards[Math.floor(Math.random() * opportunityCards.length)];
-            gameState.currentCard = card;
-            showCard(card.title, card.description);
-        }
-
-        // Draw Doodad Card
-        function drawDoodadCard() {
-            const card = doodadCards[Math.floor(Math.random() * doodadCards.length)];
-            gameState.currentCard = card;
-            showCard(card.title, card.description);
-        }
-
-        // Show Card Modal
-        function showCard(title, description) {
-            document.getElementById('card-title').textContent = title;
-            document.getElementById('card-description').textContent = description;
-            document.getElementById('card-modal').style.display = 'block';
-        }
-
-        // Accept Card
-        function acceptCard() {
-            if (gameState.currentCard && gameState.currentCard.action) {
-                const result = gameState.currentCard.action();
-                showAchievement(result.message);
-                updateDisplay();
-            }
-            document.getElementById('card-modal').style.display = 'none';
-            gameState.currentCard = null;
-        }
-
-        // Reject Card
-        function rejectCard() {
-            showAchievement("Kart reddedildi. Bazen hayır demek akıllıca bir seçimdir!");
-            document.getElementById('card-modal').style.display = 'none';
-            gameState.currentCard = null;
-        }
-
-        // Get Paycheck
-        function payCheck() {
-            const totalIncome = gameState.salary + gameState.interest + gameState.realEstateIncome;
-            const totalExpenses = gameState.taxes + gameState.homeMortgage + gameState.schoolLoans + 
-                                 gameState.carLoans + gameState.creditCards + gameState.otherExpenses + gameState.childExpenses;
-            const monthlyCashFlow = totalIncome - totalExpenses;
-            
-            gameState.savings += monthlyCashFlow;
-            gameState.turn++;
-            
-            showAchievement(`💰 Maaş alındı! Birikimlere ${formatCurrency(monthlyCashFlow)} eklendi`);
-            updateDisplay();
-        }
-
-        // Escape Rat Race
-        function escapeRatRace() {
-            if (gameState.phase === 'rat-race') {
-                gameState.phase = 'fast-track';
-                showAchievement('🎉 Tebrikler! Fare Yarışı\'ndan kaçtınız!');
-                showAchievement('🚀 Hızlı Yol\'a hoş geldiniz!');
-            }
-        }
-
-        // Show Achievement
-        function showAchievement(message) {
-            const achievement = document.createElement('div');
-            achievement.className = 'achievement';
-            achievement.textContent = message;
-            document.body.appendChild(achievement);
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                achievement.remove();
+                notification.remove();
             }, 4000);
         }
 
-        // Reset Game
-        function resetGame() {
-            if (confirm('Yeni bir oyun başlatmak istediğinizden emin misiniz?')) {
-                gameState = {
-                    phase: 'rat-race',
-                    salary: 15000,
-                    passiveIncome: 0,
-                    totalExpenses: 7150,
-                    savings: 2000,
-                    stocks: 0,
-                    realEstate: 0,
-                    business: 0,
-                    liabilities: 1010000,
-                    interest: 0,
-                    realEstateIncome: 0,
-                    taxes: 2300,
-                    homeMortgage: 2000,
-                    schoolLoans: 300,
-                    carLoans: 600,
-                    creditCards: 450,
-                    otherExpenses: 1500,
-                    childExpenses: 0,
-                    turn: 0,
-                    achievements: [],
-                    currentCard: null
-                };
-                updateDisplay();
-                showAchievement('🔄 Yeni oyun başlatıldı!');
-            }
+        function toggleMenu() {
+            // Menu functionality can be added here
+            showNotification('📋 Menü özelliği yakında eklenecek!');
         }
 
-        // Show Tutorial
-        let tutorialStep = 0;
-        const tutorialSteps = [
-            {
-                title: "Nakit Akışı 101'e Hoş Geldiniz!",
-                text: "Robert Kiyosaki'nin finansal eğitim prensiplerini öğrenin. Hedefiniz Fare Yarışı'ndan kaçmak!"
-            },
-            {
-                title: "Gelir Tablosu",
-                text: "Gelir ve giderlerinizi takip edin. Maaşınız aktif gelirdir - para için çalışırsınız."
-            },
-            {
-                title: "Pasif Gelir",
-                text: "Pasif gelir sağlayan varlıklar inşa edin. Pasif gelir > giderler olduğunda Fare Yarışı'ndan kaçarsınız!"
-            },
-            {
-                title: "Fırsat Kartları",
-                text: "Emlak, hisse senedi ve işletmelere yatırım yapmak için fırsat kartları çekin."
-            },
-            {
-                title: "Harcama Kartları",
-                text: "Harcama kartlarından sakının! Bunlar giderlerinizi ve borcunuzu artıran yükümlülüklerdir."
-            },
-            {
-                title: "Finansal Eğitim",
-                text: "Varlık ve yükümlülük arasındaki farkı öğrenin. Varlıklar cebinize para koyar!"
-            }
-        ];
-
-        function showTutorial() {
-            tutorialStep = 0;
-            document.getElementById('tutorial-overlay').style.display = 'block';
-            updateTutorial();
+        function showFastTrackInfo() {
+            showNotification('🚀 Hızlı Yol: Fare Yarışından kaçtıktan sonra büyük fırsatlar sizi bekliyor!');
         }
-
-        function updateTutorial() {
-            const step = tutorialSteps[tutorialStep];
-            document.getElementById('tutorial-title').textContent = step.title;
-            document.getElementById('tutorial-text').textContent = step.text;
-        }
-
-        function nextTutorial() {
-            tutorialStep++;
-            if (tutorialStep >= tutorialSteps.length) {
-                document.getElementById('tutorial-overlay').style.display = 'none';
-                showAchievement('📚 Öğretici tamamlandı!');
-            } else {
-                updateTutorial();
-            }
-        }
-
-        // Show Profile
-        function showProfile() {
-            const totalAssets = gameState.savings + gameState.stocks + gameState.realEstate + gameState.business;
-            const netWorth = totalAssets - gameState.liabilities;
-            const passiveIncome = gameState.interest + gameState.realEstateIncome;
-            
-            alert(`🏆 Finansal Profiliniz:\n\n` +
-                  `Aşama: ${gameState.phase === 'rat-race' ? 'Fare Yarışı' : 'Hızlı Yol'}\n` +
-                  `Net Değer: ${formatCurrency(netWorth)}\n` +
-                  `Toplam Varlık: ${formatCurrency(totalAssets)}\n` +
-                  `Pasif Gelir: ${formatCurrency(passiveIncome)}/ay\n` +
-                  `Oynanan Tur: ${gameState.turn}\n\n` +
-                  `Pasif gelir sağlayan varlıklar inşa etmeye devam edin!`);
-        }
-
-        // Auto-save game state
-        function saveGame() {
-            localStorage.setItem('nakit_akisi_101_kayit', JSON.stringify(gameState));
-        }
-
-        function loadGame() {
-            const saved = localStorage.getItem('nakit_akisi_101_kayit');
-            if (saved) {
-                gameState = JSON.parse(saved);
-                updateDisplay();
-                showAchievement('💾 Oyun yüklendi!');
-            }
-        }
-
-        // Save game every turn
-        setInterval(saveGame, 5000);
 
         // Initialize game on load
-        window.addEventListener('load', () => {
-            loadGame();
-            initGame();
-        });
+        window.addEventListener('load', initGame);
 
         // Close modal when clicking outside
         document.getElementById('card-modal').addEventListener('click', (e) => {
@@ -1138,12 +1383,15 @@
             }
         });
 
-        // Close tutorial when clicking outside
-        document.getElementById('tutorial-overlay').addEventListener('click', (e) => {
-            if (e.target.id === 'tutorial-overlay') {
-                document.getElementById('tutorial-overlay').style.display = 'none';
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
             }
-        });
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
