@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nakit Akışı 101 - Robert Kiyosaki'nin Finansal Oyunu</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2E7D32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Nakit Akışı 101">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTmFraXQgQWvEscWfxLEgMTAxIC0gRmluYW5zYWwgT3l1biIsInNob3J0X25hbWUiOiJOYWtpdCBBa8SxxZ/EsSAxMDEiLCJkZXNjcmlwdGlvbiI6IlJvYmVydCBLaXlvc2FraSduaW4gZmluYW5zYWwgZcSfaXRpbSBveXVudSIsInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiMyRTdEMzIiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI0YxRjhFOSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48dGV4dCB5PScuOWVtJyBmb250LXNpemU9JzkwJz7wn5KwPC90ZXh0Pjwvc3ZnPiIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #F1F8E9;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-100px) translateY(-100px); }
+            100% { transform: translateX(100px) translateY(100px); }
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Game Status */
+        .game-status {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #4CAF50;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 10px;
+            background: #F8F9FA;
+            border-radius: 8px;
+            border: 1px solid #E9ECEF;
+        }
+
+        .status-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .status-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+
+        .status-value.negative {
+            color: #D32F2F;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-label {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background: #E0E0E0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #66BB6A);
+            border-radius: 12px;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+        }
+
+        /* Financial Statement */
+        .financial-statement {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .statement-header {
+            background: linear-gradient(135deg, #1976D2, #2196F3);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .statement-section {
+            margin-bottom: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .section-title {
+            background: #F5F5F5;
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid #E0E0E0;
+            font-size: 0.95em;
+        }
+
+        .section-content {
+            padding: 15px;
+        }
+
+        .financial-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .financial-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            background: #F8F9FA;
+            margin: 5px -15px -15px -15px;
+            padding: 12px 15px;
+        }
+
+        .item-label {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .item-value {
+            font-weight: 600;
+            color: #2E7D32;
+        }
+
+        .item-value.expense {
+            color: #D32F2F;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #FF9800, #FFB74D);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn.secondary:hover {
+            box-shadow: 0 6px 16px rgba(255, 152, 0, 0.4);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, #F44336, #EF5350);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn.danger:hover {
+            box-shadow: 0 6px 16px rgba(244, 67, 54, 0.4);
+        }
+
+        /* Card Modal */
+        .card-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 350px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: cardSlideIn 0.3s ease-out;
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #E0E0E0;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2E7D32;
+            margin-bottom: 5px;
+        }
+
+        .card-description {
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Achievements */
+        .achievement {
+            background: linear-gradient(135deg, #FFD700, #FFC107);
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 10px 20px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+            animation: achievementPop 0.5s ease-out;
+        }
+
+        @keyframes achievementPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            50% {
+                transform: scale(1.05) translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #E0E0E0;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tutorial Mode */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: none;
+        }
+
+        .tutorial-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tutorial-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid white;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💰 Nakit Akışı 101</h1>
+            <div class="subtitle">Robert Kiyosaki'nin Finansal Eğitim Oyunu</div>
+        </div>
+
+        <!-- Game Status -->
+        <div class="game-status">
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-label">Mevcut Aşama</div>
+                    <div class="status-value" id="current-phase">Fare Yarışı</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Aylık Nakit Akışı</div>
+                    <div class="status-value" id="monthly-cashflow">₺0</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Toplam Gelir</div>
+                    <div class="status-value" id="total-income">₺0</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Toplam Gider</div>
+                    <div class="status-value expense" id="total-expenses">₺0</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-label">🎯 Fare Yarışından Kaçış İlerlemesi</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="escape-progress" style="width: 0%"></div>
+                    <div class="progress-text" id="progress-text">Pasif gelir toplam gideri aşmalı</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Statement -->
+        <div class="financial-statement">
+            <div class="statement-header">📊 Gelir Tablosu & Bilanço</div>
+            
+            <!-- Income Statement -->
+            <div class="statement-section">
+                <div class="section-title">💵 Gelir Tablosu</div>
+                <div class="section-content">
+                    <div class="financial-item">
+                        <span class="item-label">Maaş</span>
+                        <span class="item-value" id="salary">₺15.000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Faiz/Temettü</span>
+                        <span class="item-value" id="interest">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Emlak/İş Geliri</span>
+                        <span class="item-value" id="real-estate-income">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Toplam Gelir</span>
+                        <span class="item-value" id="total-income-display">₺15.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expenses -->
+            <div class="statement-section">
+                <div class="section-title">💸 Giderler</div>
+                <div class="section-content">
+                    <div class="financial-item">
+                        <span class="item-label">Vergiler</span>
+                        <span class="item-value expense" id="taxes">₺2.300</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Ev Kredisi</span>
+                        <span class="item-value expense" id="home-mortgage">₺2.000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Eğitim Kredisi</span>
+                        <span class="item-value expense" id="school-loans">₺300</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Araba Kredisi</span>
+                        <span class="item-value expense" id="car-loans">₺600</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Kredi Kartları</span>
+                        <span class="item-value expense" id="credit-cards">₺450</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Diğer Giderler</span>
+                        <span class="item-value expense" id="other-expenses">₺1.500</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Çocuk Giderleri</span>
+                        <span class="item-value expense" id="child-expenses">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Toplam Gider</span>
+                        <span class="item-value expense" id="total-expenses-display">₺7.150</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assets & Liabilities -->
+            <div class="statement-section">
+                <div class="section-title">🏦 Varlıklar & Borçlar</div>
+                <div class="section-content">
+                    <div class="financial-item">
+                        <span class="item-label">Birikimler</span>
+                        <span class="item-value" id="savings">₺2.000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Hisse/Yatırım Fonu</span>
+                        <span class="item-value" id="stocks">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Emlak</span>
+                        <span class="item-value" id="real-estate">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">İş</span>
+                        <span class="item-value" id="business">₺0</span>
+                    </div>
+                    <div class="financial-item">
+                        <span class="item-label">Toplam Borç</span>
+                        <span class="item-value expense" id="total-liabilities">₺1.010.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn" onclick="drawOpportunityCard()">
+                🎴 Fırsat Kartı Çek
+            </button>
+            <button class="btn secondary" onclick="drawDoodadCard()">
+                🛍️ Harcama Kartı Çek
+            </button>
+            <button class="btn" onclick="payCheck()">
+                💰 Maaş Al
+            </button>
+            <button class="btn secondary" onclick="showTutorial()">
+                📚 Öğretici
+            </button>
+            <button class="btn danger" onclick="resetGame()">
+                🔄 Yeni Oyun
+            </button>
+            <button class="btn" onclick="showProfile()">
+                👤 Profilim
+            </button>
+        </div>
+
+        <!-- Card Modal -->
+        <div class="card-modal" id="card-modal">
+            <div class="card-content">
+                <div class="card-header">
+                    <div class="card-title" id="card-title">Fırsat Kartı</div>
+                </div>
+                <div class="card-description" id="card-description">
+                    HızlıBüyü Şirketi'nden hisse başına ₺5'den 100 hisse satın alın. 
+                    Temettü: aylık ₺50. Gereken peşinat: ₺500.
+                </div>
+                <div class="card-footer">
+                    <button class="btn" onclick="acceptCard()">✅ Kabul Et</button>
+                    <button class="btn danger" onclick="rejectCard()">❌ Reddet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Overlay -->
+        <div class="tutorial-overlay" id="tutorial-overlay">
+            <div class="tutorial-content">
+                <div class="tutorial-arrow"></div>
+                <h3 id="tutorial-title">Nakit Akışı 101'e Hoş Geldiniz!</h3>
+                <p id="tutorial-text">Pasif gelir sağlayan varlıklar inşa etmeyi öğrenin ve Fare Yarışı'ndan kaçın!</p>
+                <button class="btn" onclick="nextTutorial()">İleri →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let gameState = {
+            phase: 'rat-race', // 'rat-race' or 'fast-track'
+            salary: 15000,
+            passiveIncome: 0,
+            totalExpenses: 7150,
+            savings: 2000,
+            stocks: 0,
+            realEstate: 0,
+            business: 0,
+            liabilities: 1010000,
+            
+            // Detailed breakdown
+            interest: 0,
+            realEstateIncome: 0,
+            taxes: 2300,
+            homeMortgage: 2000,
+            schoolLoans: 300,
+            carLoans: 600,
+            creditCards: 450,
+            otherExpenses: 1500,
+            childExpenses: 0,
+            
+            // Game progress
+            turn: 0,
+            achievements: [],
+            currentCard: null
+        };
+
+        // Card Database - Türkçe çevirili
+        const opportunityCards = [
+            {
+                title: "4'lü Apartman Dairesi",
+                description: "4 daireli apartman binası satın alın. Fiyat: ₺225.000. Aylık nakit akışı: ₺1.000. Peşinat: ₺25.000.",
+                type: "real-estate",
+                cost: 25000,
+                monthlyReturn: 1000,
+                totalValue: 225000,
+                action: () => {
+                    if (gameState.savings >= 25000) {
+                        gameState.savings -= 25000;
+                        gameState.realEstate += 225000;
+                        gameState.realEstateIncome += 1000;
+                        return { success: true, message: "Tebrikler! 4'lü apartman satın aldınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺25.000 peşinat gerekli." };
+                }
+            },
+            {
+                title: "Hisse Yatırımı - TeknoŞirket",
+                description: "TeknoŞirket'ten hisse başına ₺50'den 100 hisse satın alın. Temettü: aylık ₺125. Toplam maliyet: ₺5.000.",
+                type: "stocks",
+                cost: 5000,
+                monthlyReturn: 125,
+                totalValue: 5000,
+                action: () => {
+                    if (gameState.savings >= 5000) {
+                        gameState.savings -= 5000;
+                        gameState.stocks += 5000;
+                        gameState.interest += 125;
+                        return { success: true, message: "TeknoŞirket'ten 100 hisse satın aldınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺5.000 gerekli." };
+                }
+            },
+            {
+                title: "Küçük İşletme - Çamaşırhane",
+                description: "Çamaşırhane işletmesi satın alın. Fiyat: ₺150.000. Aylık kar: ₺1.500. Peşinat: ₺50.000.",
+                type: "business",
+                cost: 50000,
+                monthlyReturn: 1500,
+                totalValue: 150000,
+                action: () => {
+                    if (gameState.savings >= 50000) {
+                        gameState.savings -= 50000;
+                        gameState.business += 150000;
+                        gameState.realEstateIncome += 1500;
+                        return { success: true, message: "Çamaşırhane işletmesi satın aldınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺50.000 peşinat gerekli." };
+                }
+            },
+            {
+                title: "GYO Yatırımı",
+                description: "Gayrimenkul Yatırım Ortaklığı'na yatırım yapın. ₺2.500 yatırım, aylık ₺75 temettü.",
+                type: "stocks",
+                cost: 2500,
+                monthlyReturn: 75,
+                totalValue: 2500,
+                action: () => {
+                    if (gameState.savings >= 2500) {
+                        gameState.savings -= 2500;
+                        gameState.stocks += 2500;
+                        gameState.interest += 75;
+                        return { success: true, message: "GYO'ya yatırım yaptınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺2.500 gerekli." };
+                }
+            },
+            {
+                title: "Bitcoin Yatırımı",
+                description: "0.1 Bitcoin satın alın. Maliyet: ₺15.000. Potansiyel aylık getiri: ₺500 (değişken).",
+                type: "crypto",
+                cost: 15000,
+                monthlyReturn: 500,
+                totalValue: 15000,
+                action: () => {
+                    if (gameState.savings >= 15000) {
+                        gameState.savings -= 15000;
+                        gameState.stocks += 15000;
+                        gameState.interest += 500;
+                        return { success: true, message: "Bitcoin yatırımı yaptınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺15.000 gerekli." };
+                }
+            },
+            {
+                title: "Kafe İşletmesi",
+                description: "Küçük bir kafe açın. Toplam yatırım: ₺80.000. Aylık net kar: ₺2.000. Peşinat: ₺30.000.",
+                type: "business",
+                cost: 30000,
+                monthlyReturn: 2000,
+                totalValue: 80000,
+                action: () => {
+                    if (gameState.savings >= 30000) {
+                        gameState.savings -= 30000;
+                        gameState.business += 80000;
+                        gameState.realEstateIncome += 2000;
+                        return { success: true, message: "Kafe işletmesi açtınız!" };
+                    }
+                    return { success: false, message: "Yetersiz birikim. ₺30.000 peşinat gerekli." };
+                }
+            }
+        ];
+
+        const doodadCards = [
+            {
+                title: "Yeni Araba Alımı",
+                description: "Sıfır bir araba satın aldınız! Aylık taksit: ₺2.000. Toplam borç: ₺125.000.",
+                type: "liability",
+                monthlyExpense: 2000,
+                totalLiability: 125000,
+                action: () => {
+                    gameState.carLoans += 2000;
+                    gameState.liabilities += 125000;
+                    showAchievement("💸 Yeni Araba Borcu Eklendi!");
+                    return { success: true, message: "Yeni araba aldınız ama giderleriniz arttı!" };
+                }
+            },
+            {
+                title: "Kredi Kartı Alışverişi",
+                description: "Alışveriş çılgınlığı! Kredi kartı ödemeniz aylık ₺250 arttı.",
+                type: "expense",
+                monthlyExpense: 250,
+                action: () => {
+                    gameState.creditCards += 250;
+                    gameState.liabilities += 12500;
+                    return { success: true, message: "Kredi kartı borcunuz arttı!" };
+                }
+            },
+            {
+                title: "Ev Renovasyonu",
+                description: "Mutfağınızı yenilediniz. Kredi ödemesi: 5 yıl boyunca aylık ₺1.000.",
+                type: "liability",
+                monthlyExpense: 1000,
+                totalLiability: 60000,
+                action: () => {
+                    gameState.otherExpenses += 1000;
+                    gameState.liabilities += 60000;
+                    return { success: true, message: "Güzel mutfak, ama daha fazla borç!" };
+                }
+            },
+            {
+                title: "Avrupa Tatili",
+                description: "Avrupa'ya harika bir tatil! Kredi kartına yüklendi: ₺15.000. Aylık ödeme: ₺375.",
+                type: "expense",
+                monthlyExpense: 375,
+                action: () => {
+                    gameState.creditCards += 375;
+                    gameState.liabilities += 15000;
+                    return { success: true, message: "Harika anılar, daha fazla borç!" };
+                }
+            },
+            {
+                title: "Lüks Saat Alımı",
+                description: "Pahalı bir kol saati satın aldınız. Kredi kartı borcu: ₺8.000. Aylık ödeme: ₺200.",
+                type: "expense",
+                monthlyExpense: 200,
+                action: () => {
+                    gameState.creditCards += 200;
+                    gameState.liabilities += 8000;
+                    return { success: true, message: "Şık saat, ama daha fazla borç!" };
+                }
+            },
+            {
+                title: "Çocuk Sahibi Olmak",
+                description: "Tebrikler! Bir bebeğiniz oldu. Aylık çocuk giderleri: ₺1.200.",
+                type: "expense",
+                monthlyExpense: 1200,
+                action: () => {
+                    gameState.childExpenses += 1200;
+                    return { success: true, message: "Büyük mutluluk, ama daha fazla gider!" };
+                }
+            }
+        ];
+
+        // Initialize Game
+        function initGame() {
+            updateDisplay();
+            showAchievement("🎮 Nakit Akışı 101'e Hoş Geldiniz!");
+        }
+
+        // Update Display
+        function updateDisplay() {
+            // Calculate totals
+            const totalIncome = gameState.salary + gameState.passiveIncome;
+            const totalPassiveIncome = gameState.interest + gameState.realEstateIncome;
+            const totalExpenses = gameState.taxes + gameState.homeMortgage + gameState.schoolLoans + 
+                                 gameState.carLoans + gameState.creditCards + gameState.otherExpenses + gameState.childExpenses;
+            const monthlyCashFlow = totalIncome - totalExpenses;
+
+            // Update status
+            document.getElementById('current-phase').textContent = gameState.phase === 'rat-race' ? 'Fare Yarışı' : 'Hızlı Yol';
+            document.getElementById('monthly-cashflow').textContent = formatCurrency(monthlyCashFlow);
+            document.getElementById('monthly-cashflow').className = 'status-value ' + (monthlyCashFlow >= 0 ? '' : 'negative');
+            document.getElementById('total-income').textContent = formatCurrency(totalIncome);
+            document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
+
+            // Update financial statement
+            document.getElementById('salary').textContent = formatCurrency(gameState.salary);
+            document.getElementById('interest').textContent = formatCurrency(gameState.interest);
+            document.getElementById('real-estate-income').textContent = formatCurrency(gameState.realEstateIncome);
+            document.getElementById('total-income-display').textContent = formatCurrency(totalIncome);
+
+            document.getElementById('taxes').textContent = formatCurrency(gameState.taxes);
+            document.getElementById('home-mortgage').textContent = formatCurrency(gameState.homeMortgage);
+            document.getElementById('school-loans').textContent = formatCurrency(gameState.schoolLoans);
+            document.getElementById('car-loans').textContent = formatCurrency(gameState.carLoans);
+            document.getElementById('credit-cards').textContent = formatCurrency(gameState.creditCards);
+            document.getElementById('other-expenses').textContent = formatCurrency(gameState.otherExpenses);
+            document.getElementById('child-expenses').textContent = formatCurrency(gameState.childExpenses);
+            document.getElementById('total-expenses-display').textContent = formatCurrency(totalExpenses);
+
+            document.getElementById('savings').textContent = formatCurrency(gameState.savings);
+            document.getElementById('stocks').textContent = formatCurrency(gameState.stocks);
+            document.getElementById('real-estate').textContent = formatCurrency(gameState.realEstate);
+            document.getElementById('business').textContent = formatCurrency(gameState.business);
+            document.getElementById('total-liabilities').textContent = formatCurrency(gameState.liabilities);
+
+            // Update progress bar
+            const progressPercentage = Math.min((totalPassiveIncome / totalExpenses) * 100, 100);
+            document.getElementById('escape-progress').style.width = progressPercentage + '%';
+            
+            if (totalPassiveIncome >= totalExpenses && gameState.phase === 'rat-race') {
+                document.getElementById('progress-text').textContent = '🎉 Fare Yarışı\'ndan çıkmaya hazır!';
+                escapeRatRace();
+            } else {
+                const needed = totalExpenses - totalPassiveIncome;
+                document.getElementById('progress-text').textContent = 
+                    `₺${needed.toLocaleString()} daha pasif gelir gerekli`;
+            }
+        }
+
+        // Format Currency
+        function formatCurrency(amount) {
+            return '₺' + amount.toLocaleString('tr-TR');
+        }
+
+        // Draw Opportunity Card
+        function drawOpportunityCard() {
+            const card = opportunityCards[Math.floor(Math.random() * opportunityCards.length)];
+            gameState.currentCard = card;
+            showCard(card.title, card.description);
+        }
+
+        // Draw Doodad Card
+        function drawDoodadCard() {
+            const card = doodadCards[Math.floor(Math.random() * doodadCards.length)];
+            gameState.currentCard = card;
+            showCard(card.title, card.description);
+        }
+
+        // Show Card Modal
+        function showCard(title, description) {
+            document.getElementById('card-title').textContent = title;
+            document.getElementById('card-description').textContent = description;
+            document.getElementById('card-modal').style.display = 'block';
+        }
+
+        // Accept Card
+        function acceptCard() {
+            if (gameState.currentCard && gameState.currentCard.action) {
+                const result = gameState.currentCard.action();
+                showAchievement(result.message);
+                updateDisplay();
+            }
+            document.getElementById('card-modal').style.display = 'none';
+            gameState.currentCard = null;
+        }
+
+        // Reject Card
+        function rejectCard() {
+            showAchievement("Kart reddedildi. Bazen hayır demek akıllıca bir seçimdir!");
+            document.getElementById('card-modal').style.display = 'none';
+            gameState.currentCard = null;
+        }
+
+        // Get Paycheck
+        function payCheck() {
+            const totalIncome = gameState.salary + gameState.interest + gameState.realEstateIncome;
+            const totalExpenses = gameState.taxes + gameState.homeMortgage + gameState.schoolLoans + 
+                                 gameState.carLoans + gameState.creditCards + gameState.otherExpenses + gameState.childExpenses;
+            const monthlyCashFlow = totalIncome - totalExpenses;
+            
+            gameState.savings += monthlyCashFlow;
+            gameState.turn++;
+            
+            showAchievement(`💰 Maaş alındı! Birikimlere ${formatCurrency(monthlyCashFlow)} eklendi`);
+            updateDisplay();
+        }
+
+        // Escape Rat Race
+        function escapeRatRace() {
+            if (gameState.phase === 'rat-race') {
+                gameState.phase = 'fast-track';
+                showAchievement('🎉 Tebrikler! Fare Yarışı\'ndan kaçtınız!');
+                showAchievement('🚀 Hızlı Yol\'a hoş geldiniz!');
+            }
+        }
+
+        // Show Achievement
+        function showAchievement(message) {
+            const achievement = document.createElement('div');
+            achievement.className = 'achievement';
+            achievement.textContent = message;
+            document.body.appendChild(achievement);
+            
+            setTimeout(() => {
+                achievement.remove();
+            }, 4000);
+        }
+
+        // Reset Game
+        function resetGame() {
+            if (confirm('Yeni bir oyun başlatmak istediğinizden emin misiniz?')) {
+                gameState = {
+                    phase: 'rat-race',
+                    salary: 15000,
+                    passiveIncome: 0,
+                    totalExpenses: 7150,
+                    savings: 2000,
+                    stocks: 0,
+                    realEstate: 0,
+                    business: 0,
+                    liabilities: 1010000,
+                    interest: 0,
+                    realEstateIncome: 0,
+                    taxes: 2300,
+                    homeMortgage: 2000,
+                    schoolLoans: 300,
+                    carLoans: 600,
+                    creditCards: 450,
+                    otherExpenses: 1500,
+                    childExpenses: 0,
+                    turn: 0,
+                    achievements: [],
+                    currentCard: null
+                };
+                updateDisplay();
+                showAchievement('🔄 Yeni oyun başlatıldı!');
+            }
+        }
+
+        // Show Tutorial
+        let tutorialStep = 0;
+        const tutorialSteps = [
+            {
+                title: "Nakit Akışı 101'e Hoş Geldiniz!",
+                text: "Robert Kiyosaki'nin finansal eğitim prensiplerini öğrenin. Hedefiniz Fare Yarışı'ndan kaçmak!"
+            },
+            {
+                title: "Gelir Tablosu",
+                text: "Gelir ve giderlerinizi takip edin. Maaşınız aktif gelirdir - para için çalışırsınız."
+            },
+            {
+                title: "Pasif Gelir",
+                text: "Pasif gelir sağlayan varlıklar inşa edin. Pasif gelir > giderler olduğunda Fare Yarışı'ndan kaçarsınız!"
+            },
+            {
+                title: "Fırsat Kartları",
+                text: "Emlak, hisse senedi ve işletmelere yatırım yapmak için fırsat kartları çekin."
+            },
+            {
+                title: "Harcama Kartları",
+                text: "Harcama kartlarından sakının! Bunlar giderlerinizi ve borcunuzu artıran yükümlülüklerdir."
+            },
+            {
+                title: "Finansal Eğitim",
+                text: "Varlık ve yükümlülük arasındaki farkı öğrenin. Varlıklar cebinize para koyar!"
+            }
+        ];
+
+        function showTutorial() {
+            tutorialStep = 0;
+            document.getElementById('tutorial-overlay').style.display = 'block';
+            updateTutorial();
+        }
+
+        function updateTutorial() {
+            const step = tutorialSteps[tutorialStep];
+            document.getElementById('tutorial-title').textContent = step.title;
+            document.getElementById('tutorial-text').textContent = step.text;
+        }
+
+        function nextTutorial() {
+            tutorialStep++;
+            if (tutorialStep >= tutorialSteps.length) {
+                document.getElementById('tutorial-overlay').style.display = 'none';
+                showAchievement('📚 Öğretici tamamlandı!');
+            } else {
+                updateTutorial();
+            }
+        }
+
+        // Show Profile
+        function showProfile() {
+            const totalAssets = gameState.savings + gameState.stocks + gameState.realEstate + gameState.business;
+            const netWorth = totalAssets - gameState.liabilities;
+            const passiveIncome = gameState.interest + gameState.realEstateIncome;
+            
+            alert(`🏆 Finansal Profiliniz:\n\n` +
+                  `Aşama: ${gameState.phase === 'rat-race' ? 'Fare Yarışı' : 'Hızlı Yol'}\n` +
+                  `Net Değer: ${formatCurrency(netWorth)}\n` +
+                  `Toplam Varlık: ${formatCurrency(totalAssets)}\n` +
+                  `Pasif Gelir: ${formatCurrency(passiveIncome)}/ay\n` +
+                  `Oynanan Tur: ${gameState.turn}\n\n` +
+                  `Pasif gelir sağlayan varlıklar inşa etmeye devam edin!`);
+        }
+
+        // Auto-save game state
+        function saveGame() {
+            localStorage.setItem('nakit_akisi_101_kayit', JSON.stringify(gameState));
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('nakit_akisi_101_kayit');
+            if (saved) {
+                gameState = JSON.parse(saved);
+                updateDisplay();
+                showAchievement('💾 Oyun yüklendi!');
+            }
+        }
+
+        // Save game every turn
+        setInterval(saveGame, 5000);
+
+        // Initialize game on load
+        window.addEventListener('load', () => {
+            loadGame();
+            initGame();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('card-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'card-modal') {
+                rejectCard();
+            }
+        });
+
+        // Close tutorial when clicking outside
+        document.getElementById('tutorial-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'tutorial-overlay') {
+                document.getElementById('tutorial-overlay').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
