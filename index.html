@@ -5,7 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nakit Akışı 101 - Mobil</title>
     
-    <!-- PWA Meta Tags -->
+    <!-- Audio Files -->
+    <audio id="background-music" loop preload="auto" volume="0.3">
+        <!-- Placeholder for background music - you can replace with actual music file -->
+    </audio>
+    
+    <audio id="dice-sound" preload="auto">
+        <!-- Dice roll sound effect -->
+    </audio>
+    
+    <audio id="coin-sound" preload="auto">
+        <!-- Coin/money sound effect -->
+    </audio>
+    
+    <audio id="card-sound" preload="auto">
+        <!-- Card draw sound effect -->
+    </audio>
+    
+    <audio id="success-sound" preload="auto">
+        <!-- Success/positive sound effect -->
+    </audio>
+    
+    <audio id="fail-sound" preload="auto">
+        <!-- Fail/negative sound effect -->
+    </audio>
+    
+    <audio id="button-sound" preload="auto">
+        <!-- Button click sound effect -->
+    </audio>
     <meta name="theme-color" content="#2E7D32">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,7 +98,37 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .sound-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .sound-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .sound-btn:active {
+            background: rgba(255,255,255,0.3);
+            transform: scale(0.95);
+        }
+
+        .sound-btn.muted {
+            background: rgba(255,0,0,0.3);
+            border-color: #ff6b6b;
         }
 
         .dice-mini {
@@ -690,6 +747,10 @@
                 </div>
             </div>
             <div class="header-right">
+                <div class="sound-controls">
+                    <div class="sound-btn" id="music-btn" onclick="toggleMusic()" title="Müzik">🎵</div>
+                    <div class="sound-btn" id="sound-btn" onclick="toggleSounds()" title="Ses Efektleri">🔊</div>
+                </div>
                 <div class="dice-mini" id="dice-mini" onclick="rollDice()">6</div>
                 <div class="menu-button" onclick="toggleMenu()">☰</div>
             </div>
@@ -715,9 +776,9 @@
 
             <!-- Action Bar -->
             <div class="action-bar">
-                <button class="action-btn" onclick="drawOpportunityCard()">🎴 Fırsat</button>
-                <button class="action-btn secondary" onclick="drawDoodadCard()">🛍️ Harcama</button>
-                <button class="action-btn" onclick="payCheck()">💰 Maaş</button>
+                <button class="action-btn" onclick="playSound('buttonSound'); drawOpportunityCard()">🎴 Fırsat</button>
+                <button class="action-btn secondary" onclick="playSound('buttonSound'); drawDoodadCard()">🛍️ Harcama</button>
+                <button class="action-btn" onclick="playSound('buttonSound'); payCheck()">💰 Maaş</button>
             </div>
         </div>
 
@@ -796,6 +857,177 @@
     </div>
 
     <script>
+        // Audio Management
+        let audioSettings = {
+            musicEnabled: true,
+            soundEnabled: true,
+            musicVolume: 0.3,
+            soundVolume: 0.7
+        };
+
+        // Audio Elements
+        const audioElements = {
+            backgroundMusic: document.getElementById('background-music'),
+            diceSound: document.getElementById('dice-sound'),
+            coinSound: document.getElementById('coin-sound'),
+            cardSound: document.getElementById('card-sound'),
+            successSound: document.getElementById('success-sound'),
+            failSound: document.getElementById('fail-sound'),
+            buttonSound: document.getElementById('button-sound')
+        };
+
+        // Audio Functions
+        function initAudio() {
+            // Create simple audio tones using Web Audio API
+            createAudioTones();
+            
+            // Load audio settings from localStorage
+            const savedSettings = localStorage.getItem('cashflow-audio-settings');
+            if (savedSettings) {
+                audioSettings = { ...audioSettings, ...JSON.parse(savedSettings) };
+            }
+            
+            updateAudioButtons();
+        }
+
+        function createAudioTones() {
+            // Create simple beep sounds using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Dice roll sound
+            createBeepSound(audioElements.diceSound, [400, 600, 800], 0.3);
+            
+            // Coin sound
+            createBeepSound(audioElements.coinSound, [800, 1000, 1200], 0.2);
+            
+            // Card sound
+            createBeepSound(audioElements.cardSound, [300, 400], 0.4);
+            
+            // Success sound
+            createBeepSound(audioElements.successSound, [523, 659, 784], 0.5);
+            
+            // Fail sound
+            createBeepSound(audioElements.failSound, [200, 150, 100], 0.6);
+            
+            // Button sound
+            createBeepSound(audioElements.buttonSound, [600], 0.1);
+        }
+
+        function createBeepSound(audioElement, frequencies, duration) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                let sample = 0;
+                frequencies.forEach((freq, index) => {
+                    const t = i / sampleRate;
+                    const envelope = Math.exp(-t * 3); // Decay envelope
+                    sample += Math.sin(2 * Math.PI * freq * t) * envelope * (0.3 / frequencies.length);
+                });
+                channelData[i] = sample;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function bufferToWave(buffer) {
+            const length = buffer.length;
+            const arrayBuffer = new ArrayBuffer(44 + length * 2);
+            const view = new DataView(arrayBuffer);
+            
+            // WAV header
+            const writeString = (offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+            
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + length * 2, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, buffer.sampleRate, true);
+            view.setUint32(28, buffer.sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, length * 2, true);
+            
+            const channelData = buffer.getChannelData(0);
+            let offset = 44;
+            for (let i = 0; i < length; i++) {
+                const sample = Math.max(-1, Math.min(1, channelData[i]));
+                view.setInt16(offset, sample * 0x7FFF, true);
+                offset += 2;
+            }
+            
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+
+        function playSound(soundName) {
+            if (!audioSettings.soundEnabled) return;
+            
+            const audio = audioElements[soundName];
+            if (audio) {
+                audio.volume = audioSettings.soundVolume;
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log('Audio play failed:', e));
+            }
+        }
+
+        function toggleMusic() {
+            audioSettings.musicEnabled = !audioSettings.musicEnabled;
+            
+            if (audioSettings.musicEnabled) {
+                // Start background music (placeholder)
+                console.log('Background music enabled');
+            } else {
+                if (audioElements.backgroundMusic) {
+                    audioElements.backgroundMusic.pause();
+                }
+            }
+            
+            updateAudioButtons();
+            saveAudioSettings();
+            playSound('buttonSound');
+        }
+
+        function toggleSounds() {
+            audioSettings.soundEnabled = !audioSettings.soundEnabled;
+            updateAudioButtons();
+            saveAudioSettings();
+            
+            if (audioSettings.soundEnabled) {
+                playSound('buttonSound');
+            }
+        }
+
+        function updateAudioButtons() {
+            const musicBtn = document.getElementById('music-btn');
+            const soundBtn = document.getElementById('sound-btn');
+            
+            if (musicBtn) {
+                musicBtn.textContent = audioSettings.musicEnabled ? '🎵' : '🔇';
+                musicBtn.classList.toggle('muted', !audioSettings.musicEnabled);
+            }
+            
+            if (soundBtn) {
+                soundBtn.textContent = audioSettings.soundEnabled ? '🔊' : '🔇';
+                soundBtn.classList.toggle('muted', !audioSettings.soundEnabled);
+            }
+        }
+
+        function saveAudioSettings() {
+            localStorage.setItem('cashflow-audio-settings', JSON.stringify(audioSettings));
+        }
+
         // Game State
         let gameState = {
             players: [],
@@ -996,6 +1228,7 @@
 
         // Initialize Game
         function initGame() {
+            initAudio();
             generateBoardSpaces();
             showSetupModal();
         }
@@ -1058,6 +1291,7 @@
             addPlayerPieces();
             
             gameState.gameStarted = true;
+            playSound('successSound');
             showNotification('🎮 Oyun başladı! İyi şanslar!');
         }
 
@@ -1179,6 +1413,7 @@
         function rollDice() {
             if (!gameState.gameStarted || !gameState.canRollDice) return;
             
+            playSound('diceSound');
             gameState.canRollDice = false;
             const diceElement = document.getElementById('dice-mini');
             diceElement.classList.add('dice-rolling');
@@ -1243,10 +1478,12 @@
         function handlePaycheck(player) {
             const cashFlow = player.getCashFlow();
             player.savings += cashFlow;
+            playSound('coinSound');
             showNotification(`💰 ${player.name} maaş aldı: ${formatCurrency(cashFlow)}`);
             
             if (player.canEscapeRatRace() && player.phase === 'rat-race') {
                 player.phase = 'fast-track';
+                playSound('successSound');
                 showNotification(`🎉 ${player.name} Fare Yarışından kaçtı!`);
             }
             
@@ -1281,6 +1518,7 @@
         function handleDownsized(player) {
             const penalty = player.getTotalExpenses() * 2;
             player.savings -= penalty;
+            playSound('failSound');
             showNotification(`😢 ${player.name} işsiz kaldı! ${formatCurrency(penalty)} kayıp!`);
             nextTurn();
         }
@@ -1291,6 +1529,7 @@
         }
 
         function showCard(card, player) {
+            playSound('cardSound');
             gameState.activeCard = { card, player };
             document.getElementById('card-title').textContent = card.title;
             document.getElementById('card-description').textContent = card.description;
@@ -1312,6 +1551,11 @@
             if (gameState.activeCard) {
                 const { card, player } = gameState.activeCard;
                 const result = card.action(player);
+                if (result.success) {
+                    playSound('successSound');
+                } else {
+                    playSound('failSound');
+                }
                 showNotification(result.message);
                 updatePlayerDisplay();
             }
@@ -1319,6 +1563,7 @@
         }
 
         function rejectCard() {
+            playSound('buttonSound');
             if (gameState.activeCard) {
                 const { player } = gameState.activeCard;
                 showNotification(`${player.name} kartı reddetti.`);
