@@ -93,6 +93,30 @@
             font-size: 0.8em;
             opacity: 0.9;
             margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .current-player-highlight {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            animation: headerPlayerPulse 2s infinite;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        @keyframes headerPlayerPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.5);
+            }
         }
 
         .header-right {
@@ -149,6 +173,24 @@
 
         .dice-mini:active {
             transform: scale(0.95);
+        }
+
+        .dice-mini.active-turn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: 2px solid #FF8F00;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.6);
+            animation: diceGlow 2s infinite;
+        }
+
+        @keyframes diceGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 6px 20px rgba(255, 193, 7, 0.8);
+                transform: scale(1.1);
+            }
         }
 
         .menu-button {
@@ -351,6 +393,7 @@
             transition: all 0.3s ease;
             font-size: 0.9em;
             min-width: 100px;
+            position: relative;
         }
 
         .player-tab.active {
@@ -367,6 +410,40 @@
             background: white;
             color: #2196F3;
             border-bottom: 3px solid #2196F3;
+        }
+
+        .player-tab.current-turn {
+            background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+            color: #333 !important;
+            border: 2px solid #FF8F00 !important;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            animation: currentPlayerPulse 2s infinite;
+            font-weight: bold;
+        }
+
+        .player-tab.current-turn::before {
+            content: '▶️';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: playIcon 1s ease-in-out infinite;
+        }
+
+        @keyframes currentPlayerPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 193, 7, 0.6);
+            }
+        }
+
+        @keyframes playIcon {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         /* Player Stats */
@@ -457,6 +534,18 @@
         .action-btn.danger {
             background: linear-gradient(135deg, #F44336, #EF5350);
             box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .action-btn.active-turn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border: 2px solid #FF8F00;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        .action-btn.active-turn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
         }
 
         /* Card Modal */
@@ -717,20 +806,272 @@
             }
         }
 
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .money-particle {
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: bold;
+            animation: moneyFloat 2s ease-out forwards;
+        }
+
+        @keyframes moneyFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+
+        .card-particle {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-50px);
+            }
+        }
+
+        /* Enhanced Animations */
+        .board-space {
+            position: absolute;
+            width: 50px;
+            height: 35px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            border: 2px solid #fff;
+            animation: spaceGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes spaceGlow {
+            0% { box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
+            100% { box-shadow: 0 4px 15px rgba(0,0,0,0.25), 0 0 10px rgba(255,255,255,0.3); }
+        }
+
+        .board-space:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Player piece animations */
+        .player-piece {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 50;
+            animation: playerIdle 4s ease-in-out infinite;
+        }
+
+        @keyframes playerIdle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .player-piece.moving {
+            animation: playerMove 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 60;
+        }
+
+        @keyframes playerMove {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        /* Background Parallax */
+        .game-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(3, 169, 244, 0.1) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% {
+                transform: translateX(0) translateY(0) scale(1);
+            }
+            33% {
+                transform: translateX(10px) translateY(-10px) scale(1.02);
+            }
+            66% {
+                transform: translateX(-10px) translateY(10px) scale(0.98);
+            }
+        }
+
+        /* Enhanced card modal animations */
+        .card-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            animation: modalFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes modalFadeIn {
+            from { 
+                opacity: 0; 
+                backdrop-filter: blur(0px);
+            }
+            to { 
+                opacity: 1; 
+                backdrop-filter: blur(8px);
+            }
+        }
+
+        .card-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 90vw;
+            width: 350px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(255,255,255,0.2);
+            animation: cardSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes cardSlideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -30%) scale(0.8) rotateY(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+            }
+        }
+
+        /* Money counter animation */
+        .stat-value {
+            font-weight: bold;
+            font-size: 0.8em;
+            color: #2E7D32;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .stat-value.changing {
+            animation: valueChange 0.6s ease-out;
+        }
+
+        @keyframes valueChange {
+            0% { 
+                transform: scale(1); 
+                color: #2E7D32; 
+            }
+            50% { 
+                transform: scale(1.2); 
+                color: #FF9800; 
+                text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+            }
+            100% { 
+                transform: scale(1); 
+                color: #2E7D32; 
+            }
+        }
+
+        /* Floating notification improvements */
+        .notification {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFC107);
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 
+                0 8px 25px rgba(255, 193, 7, 0.4),
+                0 0 0 1px rgba(255,255,255,0.2);
+            z-index: 1001;
+            animation: notificationSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 90vw;
+            text-align: center;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes notificationSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+            }
+        }
+
         /* Dark theme support */
         @media (prefers-color-scheme: dark) {
             .bottom-panel {
-                background: #2d2d2d;
+                background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
                 color: #fff;
             }
             
             .player-content {
-                background: #2d2d2d;
+                background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
             }
             
             .stat-item {
-                background: #3d3d3d;
+                background: linear-gradient(135deg, #3d3d3d 0%, #2a2a2a 100%);
                 border-color: #4d4d4d;
+                color: #fff;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            }
+
+            .card-content {
+                background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
                 color: #fff;
             }
         }
@@ -743,7 +1084,8 @@
             <div class="header-left">
                 <div class="game-title">💰 Nakit Akışı 101</div>
                 <div class="turn-info">
-                    <span id="current-player-name">Oyuncu 1</span> | Tur: <span id="turn-number">1</span>
+                    <span class="current-player-highlight" id="current-player-name">Oyuncu 1</span>
+                    <span>Tur: <span id="turn-number">1</span></span>
                 </div>
             </div>
             <div class="header-right">
@@ -825,6 +1167,15 @@
                 </div>
 
                 <div class="setup-section">
+                    <label class="setup-label">Oyun Modu:</label>
+                    <select class="setup-select" id="game-mode">
+                        <option value="normal" selected>Normal Oyun</option>
+                        <option value="quick">Hızlı Oyun (20 tur)</option>
+                        <option value="challenge">Meydan Okuma (15 tur)</option>
+                    </select>
+                </div>
+
+                <div class="setup-section">
                     <label class="setup-label">Zorluk Seviyesi:</label>
                     <select class="setup-select" id="difficulty">
                         <option value="easy">Kolay</option>
@@ -878,8 +1229,13 @@
 
         // Audio Functions
         function initAudio() {
-            // Create simple audio tones using Web Audio API
-            createAudioTones();
+            // Create advanced audio effects
+            try {
+                createAdvancedSounds();
+            } catch (error) {
+                console.log('Advanced audio not supported, falling back to simple tones');
+                createAudioTones();
+            }
             
             // Load audio settings from localStorage
             const savedSettings = localStorage.getItem('cashflow-audio-settings');
@@ -934,6 +1290,212 @@
             audioElement.src = URL.createObjectURL(blob);
         }
 
+        // Enhanced Audio System
+        function createAdvancedSounds() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create advanced dice sound
+            createRollingSoundEffect(audioElements.diceSound, audioContext);
+            
+            // Create realistic coin sound
+            createCoinSoundEffect(audioElements.coinSound, audioContext);
+            
+            // Create card shuffle sound
+            createCardShuffleSound(audioElements.cardSound, audioContext);
+            
+            // Create success melody
+            createSuccessMelody(audioElements.successSound, audioContext);
+            
+            // Create failure sound
+            createFailureSound(audioElements.failSound, audioContext);
+            
+            // Create background music
+            createBackgroundMusic(audioElements.backgroundMusic, audioContext);
+        }
+
+        function createRollingSoundEffect(audioElement, audioContext) {
+            const duration = 1.2; // Daha uzun ses
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                let sample = 0;
+                
+                // Ana yuvarlanma sesi - azalan frekans
+                const rollFreq = 80 + 120 * Math.exp(-t * 3);
+                const rollSound = Math.sin(2 * Math.PI * rollFreq * t) * Math.exp(-t * 1.5);
+                
+                // Çoklu zar sesleri için harmonikler
+                const harmonic1 = Math.sin(2 * Math.PI * rollFreq * 1.5 * t) * 0.3;
+                const harmonic2 = Math.sin(2 * Math.PI * rollFreq * 2 * t) * 0.2;
+                
+                // Masaya çarpma sesleri (random impulses)
+                let impactNoise = 0;
+                const impactTimes = [0.1, 0.3, 0.5, 0.7, 0.9]; // Zarın masaya çarpma anları
+                impactTimes.forEach(impactTime => {
+                    if (Math.abs(t - impactTime) < 0.05) {
+                        const impactIntensity = Math.exp(-Math.abs(t - impactTime) * 20);
+                        impactNoise += (Math.random() - 0.5) * 0.4 * impactIntensity;
+                    }
+                });
+                
+                // Sürekli düşük seviye yüzey sürtünme sesi
+                const frictionNoise = (Math.random() - 0.5) * 0.15 * Math.exp(-t * 2);
+                
+                // Durma sesi (son kısımda)
+                let stopSound = 0;
+                if (t > 0.8) {
+                    const stopT = (t - 0.8) / 0.4;
+                    stopSound = Math.sin(2 * Math.PI * (40 - stopT * 20) * t) * Math.exp(-stopT * 5) * 0.3;
+                }
+                
+                // Tüm sesleri birleştir
+                sample = rollSound * 0.4 + harmonic1 + harmonic2 + impactNoise + frictionNoise + stopSound;
+                
+                // Ana zarf (envelope) - başta güçlü, sonra azalan
+                const mainEnvelope = Math.exp(-t * 1.2) * (1 + Math.sin(t * 15) * 0.2);
+                sample *= mainEnvelope;
+                
+                // Kliplemeyi önle
+                sample = Math.max(-0.8, Math.min(0.8, sample));
+                channelData[i] = sample * 0.15; // Genel seviye ayarı
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function createCoinSoundEffect(audioElement, audioContext) {
+            const duration = 0.3;
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                
+                // Metallic coin sound
+                const fundamental = Math.sin(2 * Math.PI * 800 * t);
+                const harmonic2 = Math.sin(2 * Math.PI * 1600 * t) * 0.5;
+                const harmonic3 = Math.sin(2 * Math.PI * 2400 * t) * 0.3;
+                const ring = Math.sin(2 * Math.PI * (800 + t * 200) * t);
+                
+                const envelope = Math.exp(-t * 8);
+                channelData[i] = (fundamental + harmonic2 + harmonic3 + ring) * envelope * 0.15;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function createCardShuffleSound(audioElement, audioContext) {
+            const duration = 0.4;
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                
+                // Paper/card shuffle sound
+                const noise = (Math.random() - 0.5) * 0.5;
+                const rustle1 = Math.sin(2 * Math.PI * (200 + Math.sin(t * 20) * 50) * t);
+                const rustle2 = Math.sin(2 * Math.PI * (300 + Math.cos(t * 15) * 30) * t);
+                
+                const envelope = Math.exp(-t * 4) * (1 + Math.sin(t * 30) * 0.3);
+                channelData[i] = (noise + rustle1 * 0.3 + rustle2 * 0.2) * envelope * 0.1;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function createSuccessMelody(audioElement, audioContext) {
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C
+            const duration = 0.8;
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                let sample = 0;
+                
+                notes.forEach((freq, index) => {
+                    const noteStart = index * 0.15;
+                    if (t >= noteStart && t < noteStart + 0.2) {
+                        const noteT = t - noteStart;
+                        const envelope = Math.exp(-noteT * 3);
+                        sample += Math.sin(2 * Math.PI * freq * noteT) * envelope;
+                    }
+                });
+                
+                channelData[i] = sample * 0.1;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function createFailureSound(audioElement, audioContext) {
+            const duration = 0.6;
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                
+                // Descending sad sound
+                const freq = 200 - t * 100;
+                const fundamental = Math.sin(2 * Math.PI * freq * t);
+                const harmonic = Math.sin(2 * Math.PI * freq * 1.5 * t) * 0.5;
+                
+                const envelope = Math.exp(-t * 2);
+                channelData[i] = (fundamental + harmonic) * envelope * 0.1;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+        }
+
+        function createBackgroundMusic(audioElement, audioContext) {
+            const duration = 30; // 30 second loop
+            const sampleRate = audioContext.sampleRate;
+            const numSamples = sampleRate * duration;
+            const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = buffer.getChannelData(0);
+            
+            // Simple ambient music loop
+            const chord = [261.63, 329.63, 392.00]; // C Major chord
+            
+            for (let i = 0; i < numSamples; i++) {
+                const t = i / sampleRate;
+                let sample = 0;
+                
+                chord.forEach((freq, index) => {
+                    const wave = Math.sin(2 * Math.PI * freq * t);
+                    const slowModulation = Math.sin(2 * Math.PI * 0.1 * t + index) * 0.3 + 0.7;
+                    sample += wave * slowModulation * 0.02; // Very quiet background music
+                });
+                
+                // Add some gentle reverb-like effect
+                const reverb = Math.sin(2 * Math.PI * 0.05 * t) * 0.01;
+                channelData[i] = sample + reverb;
+            }
+            
+            const blob = bufferToWave(buffer);
+            audioElement.src = URL.createObjectURL(blob);
+            audioElement.loop = true;
+        }
+
         function bufferToWave(buffer) {
             const length = buffer.length;
             const arrayBuffer = new ArrayBuffer(44 + length * 2);
@@ -986,11 +1548,15 @@
             audioSettings.musicEnabled = !audioSettings.musicEnabled;
             
             if (audioSettings.musicEnabled) {
-                // Start background music (placeholder)
-                console.log('Background music enabled');
+                if (audioElements.backgroundMusic && audioElements.backgroundMusic.src) {
+                    audioElements.backgroundMusic.volume = audioSettings.musicVolume;
+                    audioElements.backgroundMusic.play().catch(e => console.log('Music play failed:', e));
+                    showNotification('🎵 Arka plan müziği açıldı');
+                }
             } else {
                 if (audioElements.backgroundMusic) {
                     audioElements.backgroundMusic.pause();
+                    showNotification('🔇 Arka plan müziği kapatıldı');
                 }
             }
             
@@ -1035,7 +1601,64 @@
             turn: 1,
             gameStarted: false,
             activeCard: null,
-            canRollDice: true
+            canRollDice: true,
+            gameMode: 'normal', // 'normal', 'quick', 'challenge'
+            quickModeTargets: {
+                cashFlow: 10000,
+                maxTurns: 20
+            },
+            touchControls: {
+                shakeEnabled: true,
+                swipeEnabled: true,
+                pinchEnabled: true,
+                lastShake: 0,
+                shakeThreshold: 15
+            },
+            gameId: null, // Unique game session ID
+            lastSaved: null
+        };
+
+        // Achievement System
+        let achievements = {
+            firstCard: { name: "İlk Kartım", description: "İlk kartınızı aldınız", unlocked: false, icon: "🎴" },
+            firstPayday: { name: "İlk Maaş", description: "İlk maaşınızı aldınız", unlocked: false, icon: "💰" },
+            richPlayer: { name: "Zengin Oyuncu", description: "₺50.000 birikime ulaştınız", unlocked: false, icon: "🤑" },
+            ratRaceEscape: { name: "Fare Yarışından Kaçış", description: "Fare yarışından çıktınız", unlocked: false, icon: "🎉" },
+            cardMaster: { name: "Kart Ustası", description: "10 kart aldınız", unlocked: false, icon: "🃏" },
+            shakeMaster: { name: "Sallama Ustası", description: "10 kez telefon sallayarak zar attınız", unlocked: false, icon: "📱" },
+            swipeMaster: { name: "Kaydırma Ustası", description: "5 kartı kaydırarak seçtiniz", unlocked: false, icon: "👆" },
+            quickWinner: { name: "Hızlı Kazanan", description: "Hızlı modda kazandınız", unlocked: false, icon: "⚡" }
+        };
+
+        // Daily Challenges
+        let dailyChallenges = {
+            today: new Date().toDateString(),
+            challenges: [
+                { id: 'dice_rolls', name: "10 Zar At", description: "Bugün 10 kez zar atın", target: 10, current: 0, reward: "🎲", completed: false },
+                { id: 'cards_drawn', name: "5 Kart Çek", description: "Bugün 5 kart çekin", target: 5, current: 0, reward: "🎴", completed: false },
+                { id: 'money_earned', name: "₺25.000 Kazan", description: "Bugün ₺25.000 kazanın", target: 25000, current: 0, reward: "💰", completed: false }
+            ]
+        };
+
+        // Statistics
+        let gameStats = {
+            totalGamesPlayed: 0,
+            totalDiceRolls: 0,
+            totalCardsDrawn: 0,
+            totalMoneyEarned: 0,
+            shakeRolls: 0,
+            swipeActions: 0,
+            ratRaceEscapes: 0,
+            quickGameWins: 0
+        };
+
+        // Touch and Gesture Controls
+        let touchState = {
+            startX: 0,
+            startY: 0,
+            lastAcceleration: { x: 0, y: 0, z: 0 },
+            shakeCount: 0,
+            cardSwipeActive: false
         };
 
         // Player Class
@@ -1265,6 +1888,102 @@
         }
 
         function showSetupModal() {
+            // Check if there's a saved game
+            if (hasGameSave()) {
+                showGameLoadModal();
+            } else {
+                document.getElementById('setup-modal').style.display = 'flex';
+            }
+        }
+
+        function showGameLoadModal() {
+            const saveData = JSON.parse(localStorage.getItem('cashflow-game-save'));
+            const lastSaved = new Date(saveData.gameState.lastSaved);
+            const timeDiff = new Date() - lastSaved;
+            const minutesAgo = Math.floor(timeDiff / (1000 * 60));
+            
+            let timeText;
+            if (minutesAgo < 1) {
+                timeText = 'Az önce';
+            } else if (minutesAgo < 60) {
+                timeText = `${minutesAgo} dakika önce`;
+            } else {
+                const hoursAgo = Math.floor(minutesAgo / 60);
+                timeText = `${hoursAgo} saat önce`;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'setup-modal';
+            modal.innerHTML = `
+                <div class="setup-content">
+                    <div class="setup-title">💾 Kaydedilmiş Oyun Bulundu!</div>
+                    
+                    <div style="margin: 20px 0; text-align: center;">
+                        <div style="font-size: 1.1em; margin-bottom: 10px;">
+                            <strong>Tur ${saveData.gameState.turn}</strong> - ${saveData.gameState.gameMode === 'quick' ? 'Hızlı Oyun' : saveData.gameState.gameMode === 'challenge' ? 'Meydan Okuma' : 'Normal Oyun'}
+                        </div>
+                        <div style="font-size: 0.9em; color: #666;">
+                            Son kaydedilme: ${timeText}
+                        </div>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 5px;">
+                            Aktif oyuncu: <strong>${saveData.players[saveData.gameState.currentPlayerIndex].name}</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button class="start-btn" onclick="continueGame()" style="background: linear-gradient(135deg, #4CAF50, #66BB6A);">
+                            ▶️ Oyuna Devam Et
+                        </button>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button class="start-btn" onclick="startNewGameInstead()" style="background: linear-gradient(135deg, #FF9800, #FFB74D); padding: 10px 20px; font-size: 0.9em;">
+                            🆕 Yeni Oyun Başlat
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function continueGame() {
+            const modal = document.querySelector('.setup-modal');
+            if (modal) modal.remove();
+            
+            if (loadGameState()) {
+                // Reconstruct game UI
+                initPlayerTabs();
+                updatePlayerDisplay();
+                addPlayerPieces();
+                
+                // Position all players
+                gameState.players.forEach((player, index) => {
+                    updatePlayerPosition(index, player.position);
+                });
+                
+                showNotification('💾 Oyun yüklendi! Kaldığın yerden devam et!');
+                playSound('successSound');
+                startAutoSave();
+                
+                // Continue with current player if AI
+                const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+                if (currentPlayer.isAI && gameState.canRollDice) {
+                    setTimeout(() => {
+                        rollDice();
+                    }, 2000);
+                }
+            } else {
+                showNotification('❌ Oyun yüklenemedi! Yeni oyun başlatılıyor...');
+                document.getElementById('setup-modal').style.display = 'flex';
+            }
+        }
+
+        function startNewGameInstead() {
+            const modal = document.querySelector('.setup-modal');
+            if (modal) modal.remove();
+            
+            clearGameSave();
             document.getElementById('setup-modal').style.display = 'flex';
         }
 
@@ -1272,6 +1991,10 @@
             const playerCount = parseInt(document.getElementById('player-count').value);
             const aiCount = parseInt(document.getElementById('ai-count').value);
             const playerName = document.getElementById('player-name').value || 'Oyuncu 1';
+            const gameMode = document.getElementById('game-mode').value;
+
+            // Set game mode
+            setGameMode(gameMode);
 
             gameState.players = [];
             const colors = ['#F44336', '#2196F3', '#FF9800', '#9C27B0'];
@@ -1291,8 +2014,18 @@
             addPlayerPieces();
             
             gameState.gameStarted = true;
+            gameState.gameId = Date.now().toString(); // Unique game ID
             playSound('successSound');
             showNotification('🎮 Oyun başladı! İyi şanslar!');
+            
+            // Start auto-save system
+            startAutoSave();
+            saveGameState(); // Initial save
+            
+            // Start tutorial for new players
+            setTimeout(() => {
+                startTutorial();
+            }, 2000);
         }
 
         function initPlayerTabs() {
@@ -1301,9 +2034,10 @@
 
             gameState.players.forEach((player, index) => {
                 const tab = document.createElement('button');
-                tab.className = `player-tab ${player.isAI ? 'ai' : ''} ${index === 0 ? 'active' : ''}`;
+                tab.className = `player-tab ${player.isAI ? 'ai' : ''} ${index === 0 ? 'active' : ''} ${index === gameState.currentPlayerIndex ? 'current-turn' : ''}`;
                 tab.textContent = player.name;
                 tab.onclick = () => switchPlayerTab(index);
+                tab.id = `player-tab-${index}`;
                 tabsContainer.appendChild(tab);
             });
         }
@@ -1399,10 +2133,31 @@
             document.getElementById('current-player-name').textContent = currentPlayer.name;
             document.getElementById('turn-number').textContent = gameState.turn;
             
+            // Update player pieces
             document.querySelectorAll('.player-piece').forEach((piece, index) => {
                 piece.classList.toggle('current', index === gameState.currentPlayerIndex);
             });
             
+            // Update player tabs to show current turn
+            document.querySelectorAll('.player-tab').forEach((tab, index) => {
+                tab.classList.toggle('current-turn', index === gameState.currentPlayerIndex);
+            });
+            
+            // Update dice to show if current player can roll
+            const diceElement = document.getElementById('dice-mini');
+            if (diceElement) {
+                const isCurrentPlayerTurn = !currentPlayer.isAI && gameState.canRollDice;
+                diceElement.classList.toggle('active-turn', isCurrentPlayerTurn);
+            }
+            
+            // Update action buttons to highlight for current player
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(button => {
+                const isPlayerTurn = !currentPlayer.isAI;
+                button.classList.toggle('active-turn', isPlayerTurn);
+            });
+            
+            // Update displayed stats
             const activeTabs = document.querySelectorAll('.player-tab.active');
             if (activeTabs.length > 0) {
                 const activeIndex = Array.from(document.querySelectorAll('.player-tab')).indexOf(activeTabs[0]);
@@ -1414,14 +2169,21 @@
             if (!gameState.gameStarted || !gameState.canRollDice) return;
             
             playSound('diceSound');
+            triggerHapticFeedback('medium');
             gameState.canRollDice = false;
             const diceElement = document.getElementById('dice-mini');
             diceElement.classList.add('dice-rolling');
+            
+            // Update statistics
+            gameStats.totalDiceRolls++;
+            updateDailyChallenge('dice_rolls');
+            saveGameStats();
             
             setTimeout(() => {
                 const roll = Math.floor(Math.random() * 6) + 1;
                 diceElement.textContent = roll;
                 diceElement.classList.remove('dice-rolling');
+                triggerHapticFeedback('light');
                 
                 moveCurrentPlayer(roll);
                 gameState.canRollDice = true;
@@ -1432,6 +2194,9 @@
             const currentPlayer = gameState.players[gameState.currentPlayerIndex];
             const oldPosition = currentPlayer.position;
             currentPlayer.position = (currentPlayer.position + spaces) % boardSpaces.length;
+            
+            // Animate player movement
+            animatePlayerMove(gameState.currentPlayerIndex, oldPosition, currentPlayer.position);
             
             setTimeout(() => {
                 updatePlayerPosition(gameState.currentPlayerIndex, currentPlayer.position);
@@ -1476,19 +2241,52 @@
         }
 
         function handlePaycheck(player) {
+            const oldSavings = player.savings;
             const cashFlow = player.getCashFlow();
             player.savings += cashFlow;
+            
             playSound('coinSound');
+            triggerHapticFeedback('medium');
+            
+            // Create money rain effect
+            if (cashFlow > 0) {
+                createMoneyRain(cashFlow);
+            }
+            
+            // Check first paycheck achievement
+            if (!achievements.firstPayday.unlocked) {
+                checkAchievement('firstPayday');
+            }
+            
+            // Update daily challenges and stats
+            gameStats.totalMoneyEarned += Math.max(0, cashFlow);
+            updateDailyChallenge('money_earned', Math.max(0, cashFlow));
+            
+            // Check savings achievements
+            if (player.savings >= 50000) {
+                checkAchievement('richPlayer');
+            }
+            
             showNotification(`💰 ${player.name} maaş aldı: ${formatCurrency(cashFlow)}`);
             
             if (player.canEscapeRatRace() && player.phase === 'rat-race') {
                 player.phase = 'fast-track';
                 playSound('successSound');
+                triggerHapticFeedback('success');
                 showNotification(`🎉 ${player.name} Fare Yarışından kaçtı!`);
+                
+                gameStats.ratRaceEscapes++;
+                checkAchievement('ratRaceEscape');
             }
             
+            saveGameStats();
             updatePlayerDisplay();
-            nextTurn();
+            saveOnEvent(); // Save after paycheck
+            
+            // Check win conditions for quick modes
+            if (!checkGameWinConditions()) {
+                nextTurn();
+            }
         }
 
         function drawOpportunityCard(player = null) {
@@ -1535,6 +2333,30 @@
             document.getElementById('card-description').textContent = card.description;
             document.getElementById('card-modal').style.display = 'block';
             
+            // Update statistics and achievements
+            gameStats.totalCardsDrawn++;
+            updateDailyChallenge('cards_drawn');
+            
+            // Check first card achievement
+            if (!achievements.firstCard.unlocked) {
+                checkAchievement('firstCard');
+            }
+            
+            // Check card master achievement
+            if (gameStats.totalCardsDrawn >= 10) {
+                checkAchievement('cardMaster');
+            }
+            
+            saveGameStats();
+            
+            // Add sparkle effect to card
+            setTimeout(() => {
+                const cardContent = document.querySelector('.card-content');
+                if (cardContent) {
+                    createCardSparkles(cardContent);
+                }
+            }, 200);
+            
             if (player.isAI) {
                 setTimeout(() => {
                     const decision = AIStrategy.makeDecision(player, card);
@@ -1553,11 +2375,14 @@
                 const result = card.action(player);
                 if (result.success) {
                     playSound('successSound');
+                    triggerHapticFeedback('success');
                 } else {
                     playSound('failSound');
+                    triggerHapticFeedback('error');
                 }
                 showNotification(result.message);
                 updatePlayerDisplay();
+                saveOnEvent(); // Save after card action
             }
             closeCard();
         }
@@ -1585,12 +2410,19 @@
             }
             
             updatePlayerDisplay();
+            saveOnEvent(); // Save after each turn
             
             const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-            if (currentPlayer.isAI && gameState.gameStarted) {
+            
+            // Show turn notification
+            if (currentPlayer.isAI) {
+                showNotification(`🤖 ${currentPlayer.name} oynuyor...`);
                 setTimeout(() => {
                     rollDice();
                 }, 1500);
+            } else {
+                showNotification(`🎮 Sıra sende: ${currentPlayer.name}!`);
+                triggerHapticFeedback('medium');
             }
         }
 
@@ -1618,8 +2450,1046 @@
             showNotification('🚀 Hızlı Yol: Fare Yarışından kaçtıktan sonra büyük fırsatlar sizi bekliyor!');
         }
 
+        // Tutorial System
+        let tutorialState = {
+            isActive: false,
+            currentStep: 0,
+            steps: [
+                {
+                    target: '.dice-mini',
+                    title: 'Zar Atma',
+                    text: 'Zar atmak için zara tıklayın veya telefonu sallayın! 📱',
+                    position: 'bottom'
+                },
+                {
+                    target: '.action-bar',
+                    title: 'Aksiyon Düğmeleri',
+                    text: 'Fırsat kartları çekin, harcama yapın veya maaş alın! 🎮',
+                    position: 'top'
+                },
+                {
+                    target: '.player-tabs',
+                    title: 'Oyuncu Bilgileri',
+                    text: 'Oyuncu sekmelerine tıklayarak finansal durumlarını görebilirsiniz 📊',
+                    position: 'top'
+                },
+                {
+                    target: '.board-center',
+                    title: 'Oyun Hedefi',
+                    text: 'Pasif geliriniz toplam giderinizi geçince Fare Yarışından çıkabilirsiniz! 🎯',
+                    position: 'bottom'
+                }
+            ]
+        };
+
+        function startTutorial() {
+            if (!localStorage.getItem('cashflow-tutorial-completed')) {
+                tutorialState.isActive = true;
+                tutorialState.currentStep = 0;
+                showTutorialStep();
+            }
+        }
+
+        function showTutorialStep() {
+            if (tutorialState.currentStep >= tutorialState.steps.length) {
+                endTutorial();
+                return;
+            }
+
+            const step = tutorialState.steps[tutorialState.currentStep];
+            const target = document.querySelector(step.target);
+            
+            if (!target) {
+                nextTutorialStep();
+                return;
+            }
+
+            // Remove previous tutorial elements
+            const existingModal = document.querySelector('.tutorial-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Create tutorial modal
+            const modal = document.createElement('div');
+            modal.className = 'tutorial-modal';
+            modal.innerHTML = `
+                <div class="tutorial-overlay"></div>
+                <div class="tutorial-content">
+                    <div class="tutorial-title">${step.title}</div>
+                    <div class="tutorial-text">${step.text}</div>
+                    <div class="tutorial-buttons">
+                        <button class="tutorial-btn skip" onclick="endTutorial()">Geç</button>
+                        <button class="tutorial-btn next" onclick="nextTutorialStep()">
+                            ${tutorialState.currentStep === tutorialState.steps.length - 1 ? 'Bitir' : 'Sonraki'}
+                        </button>
+                    </div>
+                    <div class="tutorial-progress">
+                        ${tutorialState.currentStep + 1} / ${tutorialState.steps.length}
+                    </div>
+                </div>
+            `;
+
+            // Add tutorial styles
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2001;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            // Add CSS for tutorial
+            const tutorialStyle = document.createElement('style');
+            tutorialStyle.textContent = `
+                .tutorial-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.8);
+                    backdrop-filter: blur(4px);
+                }
+                
+                .tutorial-content {
+                    position: relative;
+                    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+                    border-radius: 20px;
+                    padding: 25px;
+                    max-width: 300px;
+                    margin: 20px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    text-align: center;
+                    animation: tutorialSlide 0.4s ease-out;
+                }
+                
+                @keyframes tutorialSlide {
+                    from {
+                        opacity: 0;
+                        transform: scale(0.8) translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: scale(1) translateY(0);
+                    }
+                }
+                
+                .tutorial-title {
+                    font-size: 1.3em;
+                    font-weight: bold;
+                    color: #2E7D32;
+                    margin-bottom: 15px;
+                }
+                
+                .tutorial-text {
+                    font-size: 1em;
+                    color: #333;
+                    line-height: 1.5;
+                    margin-bottom: 20px;
+                }
+                
+                .tutorial-buttons {
+                    display: flex;
+                    gap: 10px;
+                    justify-content: center;
+                    margin-bottom: 15px;
+                }
+                
+                .tutorial-btn {
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .tutorial-btn.skip {
+                    background: #E0E0E0;
+                    color: #666;
+                }
+                
+                .tutorial-btn.next {
+                    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+                    color: white;
+                }
+                
+                .tutorial-btn:hover {
+                    transform: scale(1.05);
+                }
+                
+                .tutorial-progress {
+                    font-size: 0.8em;
+                    color: #666;
+                    font-weight: bold;
+                }
+                
+                .tutorial-highlight {
+                    position: relative;
+                    z-index: 2002;
+                    box-shadow: 0 0 0 4px #FFD700, 0 0 20px rgba(255, 215, 0, 0.6) !important;
+                    border-radius: 8px;
+                }
+                
+                @media (prefers-color-scheme: dark) {
+                    .tutorial-content {
+                        background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+                        color: #fff;
+                    }
+                    
+                    .tutorial-title {
+                        color: #66BB6A;
+                    }
+                    
+                    .tutorial-text {
+                        color: #ccc;
+                    }
+                }
+            `;
+            document.head.appendChild(tutorialStyle);
+
+            document.body.appendChild(modal);
+
+            // Highlight target element
+            target.classList.add('tutorial-highlight');
+            
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                target.classList.remove('tutorial-highlight');
+            }, 3000);
+        }
+
+        function nextTutorialStep() {
+            tutorialState.currentStep++;
+            showTutorialStep();
+        }
+
+        function endTutorial() {
+            tutorialState.isActive = false;
+            localStorage.setItem('cashflow-tutorial-completed', 'true');
+            
+            const modal = document.querySelector('.tutorial-modal');
+            if (modal) {
+                modal.remove();
+            }
+            
+            // Remove any highlights
+            document.querySelectorAll('.tutorial-highlight').forEach(el => {
+                el.classList.remove('tutorial-highlight');
+            });
+            
+            showNotification('🎓 Tutorial tamamlandı! İyi oyunlar!');
+        }
+
+        // Help button functionality
+        function toggleMenu() {
+            const menuModal = document.createElement('div');
+            menuModal.className = 'menu-modal';
+            menuModal.innerHTML = `
+                <div class="modal-overlay" onclick="closeMenuModal()"></div>
+                <div class="menu-content">
+                    <div class="menu-title">📋 Oyun Menüsü</div>
+                    <div class="menu-options">
+                        <button class="menu-option" onclick="startTutorial(); closeMenuModal();">
+                            🎓 Tutorial'ı Tekrarla
+                        </button>
+                        <button class="menu-option" onclick="showAchievementsModal(); closeMenuModal();">
+                            🏆 Başarımlar
+                        </button>
+                        <button class="menu-option" onclick="showStatsModal(); closeMenuModal();">
+                            📊 İstatistikler
+                        </button>
+                        <button class="menu-option" onclick="newGame(); closeMenuModal();">
+                            🆕 Yeni Oyun Başlat
+                        </button>
+                        <button class="menu-option" onclick="resetProgress(); closeMenuModal();">
+                            🔄 Tüm Verileri Sıfırla
+                        </button>
+                    </div>
+                    <button class="menu-close" onclick="closeMenuModal()">❌ Kapat</button>
+                </div>
+            `;
+            
+            menuModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            const menuStyle = document.createElement('style');
+            menuStyle.textContent = `
+                .modal-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.8);
+                    backdrop-filter: blur(4px);
+                }
+                
+                .menu-content {
+                    position: relative;
+                    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+                    border-radius: 20px;
+                    padding: 25px;
+                    max-width: 300px;
+                    margin: 20px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    text-align: center;
+                }
+                
+                .menu-title {
+                    font-size: 1.3em;
+                    font-weight: bold;
+                    color: #2E7D32;
+                    margin-bottom: 20px;
+                }
+                
+                .menu-options {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    margin-bottom: 20px;
+                }
+                
+                .menu-option {
+                    padding: 12px 20px;
+                    border: none;
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+                    color: white;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .menu-option:hover {
+                    transform: scale(1.05);
+                }
+                
+                .menu-close {
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 25px;
+                    background: #E0E0E0;
+                    color: #666;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+            `;
+            document.head.appendChild(menuStyle);
+            
+            document.body.appendChild(menuModal);
+        }
+
+        function closeMenuModal() {
+            const modal = document.querySelector('.menu-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function showAchievementsModal() {
+            const unlockedAchievements = Object.values(achievements).filter(a => a.unlocked);
+            const totalAchievements = Object.values(achievements);
+            
+            const achievementsList = totalAchievements.map(achievement => `
+                <div class="achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}">
+                    <span class="achievement-icon">${achievement.unlocked ? achievement.icon : '🔒'}</span>
+                    <div class="achievement-info">
+                        <div class="achievement-name">${achievement.name}</div>
+                        <div class="achievement-desc">${achievement.description}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            showInfoModal('🏆 Başarımlar', `
+                <div class="achievement-progress">
+                    ${unlockedAchievements.length} / ${totalAchievements.length} Başarım Açıldı
+                </div>
+                <div class="achievements-list">
+                    ${achievementsList}
+                </div>
+            `);
+        }
+
+        function showStatsModal() {
+            showInfoModal('📊 İstatistikler', `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${gameStats.totalGamesPlayed}</div>
+                        <div class="stat-label">Toplam Oyun</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${gameStats.totalDiceRolls}</div>
+                        <div class="stat-label">Zar Atışı</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${gameStats.totalCardsDrawn}</div>
+                        <div class="stat-label">Çekilen Kart</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatCurrency(gameStats.totalMoneyEarned)}</div>
+                        <div class="stat-label">Toplam Kazanç</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${gameStats.shakeRolls}</div>
+                        <div class="stat-label">Sallama Atışı</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${gameStats.ratRaceEscapes}</div>
+                        <div class="stat-label">Fare Yarışı Çıkışı</div>
+                    </div>
+                </div>
+            `);
+        }
+
+        function showInfoModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'info-modal';
+            modal.innerHTML = `
+                <div class="modal-overlay" onclick="closeInfoModal()"></div>
+                <div class="info-content">
+                    <div class="info-title">${title}</div>
+                    <div class="info-body">${content}</div>
+                    <button class="info-close" onclick="closeInfoModal()">Kapat</button>
+                </div>
+            `;
+            
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function closeInfoModal() {
+            const modal = document.querySelector('.info-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Tüm ilerleme sıfırlanacak! Emin misiniz?')) {
+                localStorage.removeItem('cashflow-achievements');
+                localStorage.removeItem('cashflow-daily-challenges');
+                localStorage.removeItem('cashflow-game-stats');
+                localStorage.removeItem('cashflow-tutorial-completed');
+                localStorage.removeItem('cashflow-game-save');
+                showNotification('🔄 İlerleme sıfırlandı!');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Game Save/Load System
+        function saveGameState() {
+            if (!gameState.gameStarted) return;
+            
+            const saveData = {
+                gameState: {
+                    ...gameState,
+                    lastSaved: new Date().toISOString()
+                },
+                players: gameState.players.map(player => ({
+                    name: player.name,
+                    isAI: player.isAI,
+                    color: player.color,
+                    position: player.position,
+                    phase: player.phase,
+                    salary: player.salary,
+                    savings: player.savings,
+                    stocks: player.stocks,
+                    realEstate: player.realEstate,
+                    business: player.business,
+                    liabilities: player.liabilities,
+                    interest: player.interest,
+                    realEstateIncome: player.realEstateIncome,
+                    taxes: player.taxes,
+                    homeMortgage: player.homeMortgage,
+                    schoolLoans: player.schoolLoans,
+                    carLoans: player.carLoans,
+                    creditCards: player.creditCards,
+                    otherExpenses: player.otherExpenses,
+                    childExpenses: player.childExpenses
+                }))
+            };
+            
+            localStorage.setItem('cashflow-game-save', JSON.stringify(saveData));
+            console.log('Oyun kaydedildi:', new Date().toLocaleTimeString());
+        }
+
+        function loadGameState() {
+            const saveData = localStorage.getItem('cashflow-game-save');
+            if (!saveData) return false;
+            
+            try {
+                const parsedData = JSON.parse(saveData);
+                
+                // Restore game state
+                Object.assign(gameState, parsedData.gameState);
+                
+                // Restore players
+                gameState.players = parsedData.players.map(playerData => {
+                    const player = new Player(playerData.name, playerData.isAI, playerData.color);
+                    Object.assign(player, playerData);
+                    return player;
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('Oyun yüklenirken hata:', error);
+                localStorage.removeItem('cashflow-game-save');
+                return false;
+            }
+        }
+
+        function hasGameSave() {
+            return localStorage.getItem('cashflow-game-save') !== null;
+        }
+
+        function clearGameSave() {
+            localStorage.removeItem('cashflow-game-save');
+            showNotification('💾 Oyun kaydı silindi!');
+        }
+
+        function newGame() {
+            if (confirm('Mevcut oyun silinecek! Yeni oyun başlatmak istiyor musunuz?')) {
+                clearGameSave();
+                setTimeout(() => location.reload(), 500);
+            }
+        }
+
+        // Auto-save game state periodically
+        function startAutoSave() {
+            setInterval(() => {
+                if (gameState.gameStarted) {
+                    saveGameState();
+                }
+            }, 10000); // Her 10 saniyede bir kaydet
+        }
+
+        // Save game on important events
+        function saveOnEvent() {
+            if (gameState.gameStarted) {
+                saveGameState();
+            }
+        }
+
+        // Touch and Gesture Functions
+        function initTouchControls() {
+            // Device orientation and motion
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', handleDeviceMotion, false);
+            }
+
+            // Touch events for swipe gestures
+            document.addEventListener('touchstart', handleTouchStart, { passive: false });
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+            document.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+            // Add shake instruction
+            addShakeInstruction();
+        }
+
+        function handleDeviceMotion(event) {
+            if (!gameState.touchControls.shakeEnabled) return;
+
+            const acceleration = event.accelerationIncludingGravity;
+            if (!acceleration) return;
+
+            const currentTime = Date.now();
+            if (currentTime - gameState.touchControls.lastShake < 500) return;
+
+            const deltaX = Math.abs(acceleration.x - touchState.lastAcceleration.x);
+            const deltaY = Math.abs(acceleration.y - touchState.lastAcceleration.y);
+            const deltaZ = Math.abs(acceleration.z - touchState.lastAcceleration.z);
+
+            if (deltaX + deltaY + deltaZ > gameState.touchControls.shakeThreshold) {
+                handleShakeGesture();
+                gameState.touchControls.lastShake = currentTime;
+            }
+
+            touchState.lastAcceleration = { x: acceleration.x, y: acceleration.y, z: acceleration.z };
+        }
+
+        function handleShakeGesture() {
+            if (gameState.canRollDice && gameState.gameStarted) {
+                playSound('diceSound');
+                showNotification('📱 Telefonu salladınız! Zar atılıyor...');
+                
+                // Track shake rolls for achievements
+                gameStats.shakeRolls++;
+                if (gameStats.shakeRolls >= 10) {
+                    checkAchievement('shakeMaster');
+                }
+                saveGameStats();
+                
+                rollDice();
+            } else if (gameState.activeCard) {
+                // Shake to shuffle/redraw card
+                showNotification('📱 Kart karıştırılıyor...');
+            }
+        }
+
+        function handleTouchStart(event) {
+            if (event.touches.length === 1) {
+                touchState.startX = event.touches[0].clientX;
+                touchState.startY = event.touches[0].clientY;
+                
+                // Check if touch is on card modal
+                if (event.target.closest('.card-modal')) {
+                    touchState.cardSwipeActive = true;
+                }
+            }
+        }
+
+        function handleTouchMove(event) {
+            if (!gameState.touchControls.swipeEnabled) return;
+            
+            if (touchState.cardSwipeActive && event.touches.length === 1) {
+                const currentX = event.touches[0].clientX;
+                const deltaX = currentX - touchState.startX;
+                
+                // Visual feedback for card swipe
+                const cardModal = document.querySelector('.card-content');
+                if (cardModal && Math.abs(deltaX) > 20) {
+                    cardModal.style.transform = `translate(-50%, -50%) translateX(${deltaX * 0.3}px) rotate(${deltaX * 0.05}deg)`;
+                    cardModal.style.opacity = Math.max(0.5, 1 - Math.abs(deltaX) / 300);
+                }
+            }
+        }
+
+        function handleTouchEnd(event) {
+            if (!gameState.touchControls.swipeEnabled) return;
+            
+            if (touchState.cardSwipeActive) {
+                const deltaX = event.changedTouches[0].clientX - touchState.startX;
+                const deltaY = event.changedTouches[0].clientY - touchState.startY;
+                
+                // Reset card visual
+                const cardModal = document.querySelector('.card-content');
+                if (cardModal) {
+                    cardModal.style.transform = 'translate(-50%, -50%)';
+                    cardModal.style.opacity = '1';
+                }
+                
+                // Swipe detection
+                if (Math.abs(deltaX) > 100 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                    // Track swipe actions for achievements
+                    gameStats.swipeActions++;
+                    if (gameStats.swipeActions >= 5) {
+                        checkAchievement('swipeMaster');
+                    }
+                    saveGameStats();
+                    
+                    if (deltaX > 0) {
+                        // Swipe right - accept card
+                        playSound('successSound');
+                        showNotification('👉 Sağa kaydırdınız - Kart kabul edildi!');
+                        acceptCard();
+                    } else {
+                        // Swipe left - reject card
+                        playSound('failSound');
+                        showNotification('👈 Sola kaydırdınız - Kart reddedildi!');
+                        rejectCard();
+                    }
+                }
+                
+                touchState.cardSwipeActive = false;
+            }
+        }
+
+        function addShakeInstruction() {
+            const instruction = document.createElement('div');
+            instruction.className = 'shake-instruction';
+            instruction.innerHTML = '📱 Zar atmak için telefonu sallayın!';
+            instruction.style.cssText = `
+                position: fixed;
+                top: 120px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #FF9800, #FFB74D);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.8em;
+                font-weight: bold;
+                z-index: 999;
+                animation: bounce 2s infinite;
+                box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+            `;
+            
+            document.body.appendChild(instruction);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (instruction.parentNode) {
+                    instruction.remove();
+                }
+            }, 5000);
+        }
+
+        // Add CSS for bounce animation
+        const bounceStyle = document.createElement('style');
+        bounceStyle.textContent = `
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+                40% { transform: translateX(-50%) translateY(-10px); }
+                60% { transform: translateX(-50%) translateY(-5px); }
+            }
+        `;
+        document.head.appendChild(bounceStyle);
+
+        // Haptic Feedback Function
+        function triggerHapticFeedback(type = 'light') {
+            if (navigator.vibrate) {
+                switch(type) {
+                    case 'light':
+                        navigator.vibrate(50);
+                        break;
+                    case 'medium':
+                        navigator.vibrate(100);
+                        break;
+                    case 'heavy':
+                        navigator.vibrate([100, 50, 100]);
+                        break;
+                    case 'success':
+                        navigator.vibrate([50, 25, 50, 25, 100]);
+                        break;
+                    case 'error':
+                        navigator.vibrate([100, 100, 100]);
+                        break;
+                }
+            }
+        }
+
+        // Particle Effects System
+        function createParticleEffect(x, y, type, text = '') {
+            const particle = document.createElement('div');
+            particle.className = `particle ${type}`;
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            if (type === 'money-particle') {
+                particle.textContent = text || '₺';
+            } else if (type === 'card-particle') {
+                particle.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            }
+            
+            document.body.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.remove();
+                }
+            }, 2000);
+        }
+
+        function createMoneyRain(amount) {
+            const colors = ['#FFD700', '#FFA500', '#FF6B35', '#00FF00'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * 100 + 100;
+                    createParticleEffect(x, y, 'money-particle', amount > 0 ? '+₺' : '-₺');
+                }, i * 100);
+            }
+        }
+
+        function createCardSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            const colors = ['#FFD700', '#FF6B35', '#4CAF50', '#2196F3', '#9C27B0'];
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const x = rect.left + Math.random() * rect.width;
+                    const y = rect.top + Math.random() * rect.height;
+                    const particle = document.createElement('div');
+                    particle.className = 'particle card-particle';
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 1500);
+                }, i * 50);
+            }
+        }
+
+        // Enhanced Animation Functions
+        function animateStatChange(element, oldValue, newValue) {
+            element.classList.add('changing');
+            setTimeout(() => {
+                element.classList.remove('changing');
+            }, 600);
+            
+            // Create floating text for significant changes
+            if (Math.abs(newValue - oldValue) > 1000) {
+                const rect = element.getBoundingClientRect();
+                const change = newValue - oldValue;
+                createParticleEffect(
+                    rect.left + rect.width / 2,
+                    rect.top,
+                    'money-particle',
+                    change > 0 ? `+${formatCurrency(change)}` : formatCurrency(change)
+                );
+            }
+        }
+
+        function animatePlayerMove(playerIndex, fromPosition, toPosition) {
+            const piece = document.getElementById(`player-piece-${playerIndex}`);
+            if (!piece) return;
+            
+            piece.classList.add('moving');
+            setTimeout(() => {
+                piece.classList.remove('moving');
+            }, 800);
+        }
+
+        // Achievement and Progress System
+        function initProgressSystem() {
+            loadAchievements();
+            loadDailyChallenges();
+            loadGameStats();
+            updateProgressDisplay();
+        }
+
+        function loadAchievements() {
+            const saved = localStorage.getItem('cashflow-achievements');
+            if (saved) {
+                const savedAchievements = JSON.parse(saved);
+                Object.keys(savedAchievements).forEach(key => {
+                    if (achievements[key]) {
+                        achievements[key].unlocked = savedAchievements[key].unlocked;
+                    }
+                });
+            }
+        }
+
+        function saveAchievements() {
+            localStorage.setItem('cashflow-achievements', JSON.stringify(achievements));
+        }
+
+        function loadDailyChallenges() {
+            const saved = localStorage.getItem('cashflow-daily-challenges');
+            if (saved) {
+                const savedChallenges = JSON.parse(saved);
+                // Check if it's a new day
+                if (savedChallenges.today === dailyChallenges.today) {
+                    dailyChallenges = savedChallenges;
+                } else {
+                    // Reset daily challenges for new day
+                    dailyChallenges.challenges.forEach(challenge => {
+                        challenge.current = 0;
+                        challenge.completed = false;
+                    });
+                    saveDailyChallenges();
+                }
+            }
+        }
+
+        function saveDailyChallenges() {
+            localStorage.setItem('cashflow-daily-challenges', JSON.stringify(dailyChallenges));
+        }
+
+        function loadGameStats() {
+            const saved = localStorage.getItem('cashflow-game-stats');
+            if (saved) {
+                gameStats = { ...gameStats, ...JSON.parse(saved) };
+            }
+        }
+
+        function saveGameStats() {
+            localStorage.setItem('cashflow-game-stats', JSON.stringify(gameStats));
+        }
+
+        function checkAchievement(achievementId) {
+            if (achievements[achievementId] && !achievements[achievementId].unlocked) {
+                achievements[achievementId].unlocked = true;
+                saveAchievements();
+                showAchievementNotification(achievements[achievementId]);
+                playSound('successSound');
+                triggerHapticFeedback('success');
+                return true;
+            }
+            return false;
+        }
+
+        function showAchievementNotification(achievement) {
+            const notification = document.createElement('div');
+            notification.className = 'achievement-notification';
+            notification.innerHTML = `
+                <div class="achievement-icon">${achievement.icon}</div>
+                <div class="achievement-text">
+                    <div class="achievement-title">Başarım Açıldı!</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-desc">${achievement.description}</div>
+                </div>
+            `;
+            notification.style.cssText = `
+                position: fixed;
+                top: 50px;
+                right: 20px;
+                background: linear-gradient(135deg, #FFD700, #FFA500);
+                color: #333;
+                padding: 15px;
+                border-radius: 15px;
+                font-weight: bold;
+                box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+                z-index: 1002;
+                animation: achievementSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+                max-width: 250px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes achievementSlide {
+                    from {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function updateDailyChallenge(challengeId, amount = 1) {
+            const challenge = dailyChallenges.challenges.find(c => c.id === challengeId);
+            if (challenge && !challenge.completed) {
+                challenge.current = Math.min(challenge.current + amount, challenge.target);
+                
+                if (challenge.current >= challenge.target && !challenge.completed) {
+                    challenge.completed = true;
+                    showNotification(`🏆 Günlük görev tamamlandı: ${challenge.name}`);
+                    playSound('successSound');
+                    triggerHapticFeedback('success');
+                }
+                
+                saveDailyChallenges();
+                updateProgressDisplay();
+            }
+        }
+
+        function updateProgressDisplay() {
+            // This would update UI elements showing progress
+            const unlockedCount = Object.values(achievements).filter(a => a.unlocked).length;
+            const totalCount = Object.keys(achievements).length;
+            
+            // Update achievement counter in header if exists
+            const achievementCounter = document.getElementById('achievement-counter');
+            if (achievementCounter) {
+                achievementCounter.textContent = `${unlockedCount}/${totalCount}`;
+            }
+        }
+
+        // Game Mode Functions
+        function setGameMode(mode) {
+            gameState.gameMode = mode;
+            
+            switch(mode) {
+                case 'quick':
+                    gameState.quickModeTargets.cashFlow = 10000;
+                    gameState.quickModeTargets.maxTurns = 20;
+                    showNotification('⚡ Hızlı oyun modu aktif! 20 turda ₺10.000 nakit akışı hedefi!');
+                    break;
+                case 'challenge':
+                    gameState.quickModeTargets.cashFlow = 20000;
+                    gameState.quickModeTargets.maxTurns = 15;
+                    showNotification('🏆 Meydan okuma modu! 15 turda ₺20.000 nakit akışı!');
+                    break;
+                default:
+                    showNotification('🎯 Normal oyun modu aktif!');
+            }
+        }
+
+        function checkGameWinConditions() {
+            if (gameState.gameMode === 'quick' || gameState.gameMode === 'challenge') {
+                const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+                
+                // Check turn limit
+                if (gameState.turn > gameState.quickModeTargets.maxTurns) {
+                    showNotification('⏰ Zaman doldu! Oyun bitti!');
+                    endGame(false);
+                    return true;
+                }
+                
+                // Check cash flow target
+                if (currentPlayer.getCashFlow() >= gameState.quickModeTargets.cashFlow) {
+                    showNotification(`🎉 ${currentPlayer.name} hedefi başardı!`);
+                    endGame(true);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function endGame(won) {
+            gameState.gameStarted = false;
+            gameStats.totalGamesPlayed++;
+            
+            if (won && gameState.gameMode === 'quick') {
+                gameStats.quickGameWins++;
+                checkAchievement('quickWinner');
+            }
+            
+            saveGameStats();
+            
+            // Show game over modal
+            setTimeout(() => {
+                if (confirm(won ? '🎉 Tebrikler! Yeni oyun başlatmak ister misiniz?' : '😔 Oyun bitti! Yeniden denemek ister misiniz?')) {
+                    location.reload();
+                }
+            }, 1000);
+        }
+
         // Initialize game on load
-        window.addEventListener('load', initGame);
+        window.addEventListener('load', () => {
+            initGame();
+            initTouchControls();
+            initProgressSystem();
+        });
 
         // Close modal when clicking outside
         document.getElementById('card-modal').addEventListener('click', (e) => {
